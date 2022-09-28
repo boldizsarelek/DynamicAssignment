@@ -8,8 +8,10 @@ namespace OR_test
     {
         public static void Main()
         {
-            int constraint_count = 9;
-            int application_count = 333;
+
+            //reading csv files
+            int constraint_count;
+            int application_count;
 
             List<Constraint> constraints = new List<Constraint>();
             List<Application> applications = new List<Application>();
@@ -32,6 +34,7 @@ namespace OR_test
                 constraints.Add(constraint);
             }
             reader.Close();
+            constraint_count = constraints.Count;
 
             reader = new StreamReader("/Users/boldizsarelek/Projects/OR-test/OR-test/Files/jelentkezesek_szuk.txt");
             while (!reader.EndOfStream)
@@ -51,7 +54,7 @@ namespace OR_test
                 applications.Add(application);
             }
             reader.Close();
-
+            application_count = applications.Count;
 
             Console.WriteLine("korlatok {0} {1} {2}",
                 constraints[constraint_count -1].ConstraintID,
@@ -64,6 +67,33 @@ namespace OR_test
                 applications[application_count - 1].CompanyID);
 
 
+            //writing lp file
+
+            //objective (minimizing the preferences)
+            StreamWriter writer = new StreamWriter("FELVI.lp");
+            writer.WriteLine("min");
+            for (int i = 0; i < applications.Count; i++)
+            {
+                writer.WriteLine(" + " + applications[i].StudentRank + " X" + applications[i].StudentID + "_" + applications[i].CompanyID);
+            }
+
+            //applicant's boundaries (1 applicant can only be assigned to one job)
+            writer.WriteLine(" \n subject to");
+
+            int applicant = applications[0].StudentID;
+            writer.WriteLine("kE" + applicant + ":");
+            for (int i = 0; i < applications.Count; i++)
+            {
+                if (applicant != applications[i].StudentID)
+                {
+                    writer.WriteLine(" = 1");
+                    applicant = applications[i].StudentID;
+                    writer.WriteLine("kE" + applicant + ":");
+                }
+                writer.WriteLine(" + X" + applications[i].StudentID + "_" + applications[i].CompanyID);     
+            }
+            writer.WriteLine(" = 1");
+            writer.Close();
         }
     }
 }
