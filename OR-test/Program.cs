@@ -93,6 +93,31 @@ namespace OR_test
                 writer.WriteLine(" + X" + applications[i].StudentID + "_" + applications[i].CompanyID);     
             }
             writer.WriteLine(" = 1");
+
+            //jobs' maximum limit boundaries
+
+                //sorting the lists by companies
+            List<Application> sortedApplications = applications.OrderBy(o => o.CompanyID).ToList();
+            List<Constraint> sortedConstraints = constraints.OrderBy(o => o.CompanyID).ToList();
+
+            int company = applications[0].CompanyID;
+            int constraintIndex = constraints.IndexOf(constraints.Where(p => p.CompanyID == company).FirstOrDefault());
+
+            writer.WriteLine("kSZP" + company + ":");
+            for (int i = 0; i < applications.Count; i++)
+            {
+                if(company != applications[i].CompanyID)
+                {
+                    writer.WriteLine("<= " + constraints[constraintIndex].MaxLimit);
+                    company = applications[i].CompanyID;
+                    constraintIndex = constraints.IndexOf(constraints.Where(p => p.CompanyID == company).FirstOrDefault());
+                    writer.WriteLine("kSZP" + company + ":");
+                }
+                writer.WriteLine(" + X" + applications[i].StudentID + "_" + applications[i].CompanyID;
+            }
+            writer.WriteLine("<= " + constraints[constraintIndex].MaxLimit);
+
+
             writer.Close();
         }
     }
