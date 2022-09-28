@@ -136,8 +136,27 @@ namespace OR_test
             }
             writer.WriteLine("<= " + constraints[constraintIndex].MinLimit);
 
+            //jobs' foreign limitations (maximum number of foreign students per job)
 
+            company = sortedApplications[0].CompanyID;
+            constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
 
+            writer.WriteLine("kSZPk" + company + ":");
+            for (int i = 0; i < sortedApplications.Count; i++)
+            {
+                if (company != sortedApplications[i].CompanyID)
+                {
+                    writer.WriteLine("<= 2");
+                    company = sortedApplications[i].CompanyID;
+                    constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
+                    writer.WriteLine("kSZPk" + company + ":");
+                }
+                if (sortedApplications[i].Attribute1)
+                {
+                    writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
+                }
+            }
+            writer.WriteLine("<= 2");
             writer.Close();
         }
     }
