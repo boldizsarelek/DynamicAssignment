@@ -97,25 +97,45 @@ namespace OR_test
             //jobs' maximum limit boundaries
 
                 //sorting the lists by companies
-            List<Application> sortedApplications = applications.OrderBy(o => o.CompanyID).ToList();
-            List<Constraint> sortedConstraints = constraints.OrderBy(o => o.CompanyID).ToList();
+            List<Application> sortedApplications = applications.OrderBy(a => a.CompanyID).ToList();
+            List<Constraint> sortedConstraints = constraints.OrderBy(c => c.CompanyID).ToList();
 
             int company = applications[0].CompanyID;
-            int constraintIndex = constraints.IndexOf(constraints.Where(p => p.CompanyID == company).FirstOrDefault());
+            int constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
 
             writer.WriteLine("kSZP" + company + ":");
-            for (int i = 0; i < applications.Count; i++)
+            for (int i = 0; i < sortedApplications.Count; i++)
             {
-                if(company != applications[i].CompanyID)
+                if(company != sortedApplications[i].CompanyID)
                 {
                     writer.WriteLine("<= " + constraints[constraintIndex].MaxLimit);
-                    company = applications[i].CompanyID;
-                    constraintIndex = constraints.IndexOf(constraints.Where(p => p.CompanyID == company).FirstOrDefault());
+                    company = sortedApplications[i].CompanyID;
+                    constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
                     writer.WriteLine("kSZP" + company + ":");
                 }
-                writer.WriteLine(" + X" + applications[i].StudentID + "_" + applications[i].CompanyID;
+                writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
             }
             writer.WriteLine("<= " + constraints[constraintIndex].MaxLimit);
+
+            //jobs' minimum limit boundaries
+
+            company = sortedApplications[0].CompanyID;
+            constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
+
+            writer.WriteLine("kSZPa" + company + ":");
+            for (int i = 0; i < sortedApplications.Count; i++)
+            {
+                if (company != sortedApplications[i].CompanyID)
+                {
+                    writer.WriteLine("<= " + constraints[constraintIndex].MinLimit);
+                    company = sortedApplications[i].CompanyID;
+                    constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
+                    writer.WriteLine("kSZPa" + company + ":");
+                }
+                writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
+            }
+            writer.WriteLine("<= " + constraints[constraintIndex].MinLimit);
+
 
 
             writer.Close();
