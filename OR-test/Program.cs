@@ -71,6 +71,7 @@ namespace OR_test
 
             //objective (minimizing the preferences)
             StreamWriter writer = new StreamWriter("FELVI.lp");
+            StreamWriter writer2 = new StreamWriter("CELFGV.lp");
             writer.WriteLine("min");
             for (int i = 0; i < applications.Count; i++)
             {
@@ -157,7 +158,64 @@ namespace OR_test
                 }
             }
             writer.WriteLine("<= 2");
+
+
+            //stability limitations
+            int k;
+            int l;
+            int studentRank;
+            int studentID;
+            int infeas;
+
+            int iCompare = 0;
+            int applicantCompare = applications[0].StudentID;
+            for (int i = 0; i < applications.Count; i++)
+            {
+                k = 0;
+                l = 0;
+                company = applications[i].CompanyID;
+                studentRank = applications[i].StudentRank;
+                studentID = applications[i].StudentID;
+                infeas = 0;
+
+
+                if (studentID != applicantCompare)
+                {
+                    applicantCompare = studentID;
+                    iCompare = i;
+                }
+
+                do
+                {
+                    k++;
+                } while (sortedApplications[k].CompanyID != company);
+
+                do
+                {
+                    l++;
+                } while (constraints[l].CompanyID != company);
+
+                for (int j = iCompare; j < i; j++)
+                {
+                    writer.WriteLine(" + X" + applications[j].StudentID + "_" + applications[j].CompanyID);
+                }
+
+                do
+                {
+                    writer.WriteLine("- X" + sortedApplications[k].StudentID + "_" + sortedApplications[k].CompanyID);
+                    writer.WriteLine(" + B" + applications[i].StudentID + "_" + applications[i].CompanyID + ">= 0");
+
+                    writer2.WriteLine(" + 100 B" + applications[i].StudentID + "_" + applications[i].CompanyID);
+
+                    k++;
+                } while (sortedApplications[k].CompanyID == company);
+
+
+
+
+            }
             writer.Close();
+
         }
     }
 }
