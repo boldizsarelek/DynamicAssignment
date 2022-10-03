@@ -27,8 +27,8 @@ namespace OR_test
                     ConstraintID = Convert.ToInt32(tmp[0]),
                     Type = Convert.ToChar(tmp[1]),
                     CompanyID = Convert.ToInt32(tmp[2]),
-                    MinLimit = Convert.ToInt32(tmp[3]),
-                    MaxLimit = Convert.ToInt32(tmp[4]),
+                    MaxLimit = Convert.ToInt32(tmp[3]),
+                    MinLimit = Convert.ToInt32(tmp[4]),
                     Szp_ID = Convert.ToInt32(tmp[5]),
                 };
                 constraints.Add(constraint);
@@ -165,7 +165,6 @@ namespace OR_test
             int l;
             int studentRank;
             int studentID;
-            int infeas;
 
             int iCompare = 0;
             int applicantCompare = applications[0].StudentID;
@@ -176,8 +175,6 @@ namespace OR_test
                 company = applications[i].CompanyID;
                 studentRank = applications[i].StudentRank;
                 studentID = applications[i].StudentID;
-                infeas = 0;
-
 
                 if (studentID != applicantCompare)
                 {
@@ -185,33 +182,30 @@ namespace OR_test
                     iCompare = i;
                 }
 
-                do
+                while (sortedApplications[k].CompanyID != company)
                 {
                     k++;
-                } while (sortedApplications[k].CompanyID != company);
+                }
 
-                do
+                while (constraints[l].CompanyID != company)
                 {
                     l++;
-                } while (constraints[l].CompanyID != company);
+                }
 
                 for (int j = iCompare; j < i; j++)
                 {
-                    writer.WriteLine(" + X" + applications[j].StudentID + "_" + applications[j].CompanyID);
+                    Console.WriteLine(" + X" + applications[j].StudentID + "_" + applications[j].CompanyID);
                 }
 
                 do
                 {
-                    writer.WriteLine("- X" + sortedApplications[k].StudentID + "_" + sortedApplications[k].CompanyID);
-                    writer.WriteLine(" + B" + applications[i].StudentID + "_" + applications[i].CompanyID + ">= 0");
+                    Console.WriteLine("- X" + sortedApplications[k].StudentID + "_" + sortedApplications[k].CompanyID);
+                    Console.WriteLine(" + B" + applications[i].StudentID + "_" + applications[i].CompanyID + ">= 0");
 
                     writer2.WriteLine(" + 100 B" + applications[i].StudentID + "_" + applications[i].CompanyID);
 
                     k++;
                 } while (sortedApplications[k].CompanyID == company);
-
-
-
 
             }
             writer.Close();
