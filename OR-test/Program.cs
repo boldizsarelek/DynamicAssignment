@@ -128,14 +128,14 @@ namespace OR_test
             {
                 if (company != sortedApplications[i].CompanyID)
                 {
-                    writer.WriteLine("<= " + constraints[constraintIndex].MinLimit);
+                    writer.WriteLine("=> " + constraints[constraintIndex].MinLimit);
                     company = sortedApplications[i].CompanyID;
                     constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
                     writer.WriteLine("kSZPa" + company + ":");
                 }
                 writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
             }
-            writer.WriteLine("<= " + constraints[constraintIndex].MinLimit);
+            writer.WriteLine(">= " + constraints[constraintIndex].MinLimit);
 
             //jobs' foreign limitations (maximum number of foreign students per job)
 
