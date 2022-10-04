@@ -10,14 +10,17 @@
 
   <ItemGroup>
     <None Remove="Google.OrTools" />
-    <None Remove="Files\jelentkezesek_szuk.txt" />
-    <None Remove="Files\korlatok_szuk.txt" />
     <None Remove="Files\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.OrTools" Version="9.4.1874" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Files\" />
+    <None Update="Files\jelentkezesek_szuk.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\korlatok_szuk.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

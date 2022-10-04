@@ -17,7 +17,7 @@ namespace OR_test
             List<Application> applications = new List<Application>();
             Console.WriteLine("Start \n");
 
-            StreamReader reader = new StreamReader("/Users/boldizsarelek/Projects/OR-test/OR-test/Files/korlatok_szuk.txt");
+            StreamReader reader = new StreamReader("Files/korlatok_szuk.txt");
             
             while (!reader.EndOfStream)
             {
@@ -36,7 +36,7 @@ namespace OR_test
             reader.Close();
             constraint_count = constraints.Count;
 
-            reader = new StreamReader("/Users/boldizsarelek/Projects/OR-test/OR-test/Files/jelentkezesek_szuk.txt");
+            reader = new StreamReader("Files/jelentkezesek_szuk.txt");
             while (!reader.EndOfStream)
             {
                 string[] tmp = reader.ReadLine().Split("\t");
