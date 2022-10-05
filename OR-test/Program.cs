@@ -10,15 +10,15 @@ namespace OR_test
         {
 
             //reading csv files
-            int constraint_count;
-            int application_count;
+            int constraintCount;
+            int applicationCount;
 
             List<Constraint> constraints = new List<Constraint>();
             List<Application> applications = new List<Application>();
+
             Console.WriteLine("Start \n");
 
             StreamReader reader = new StreamReader("Files/korlatok_szuk.txt");
-            
             while (!reader.EndOfStream)
             {
                 string[] tmp = reader.ReadLine().Split("\t");
@@ -34,7 +34,7 @@ namespace OR_test
                 constraints.Add(constraint);
             }
             reader.Close();
-            constraint_count = constraints.Count;
+            constraintCount = constraints.Count;
 
             reader = new StreamReader("Files/jelentkezesek_szuk.txt");
             while (!reader.EndOfStream)
@@ -54,17 +54,19 @@ namespace OR_test
                 applications.Add(application);
             }
             reader.Close();
-            application_count = applications.Count;
+            applicationCount = applications.Count;
+
+            List<Application> applicationsByRank = applications.OrderBy(a => a.StudentID).ThenBy(a => a.StudentRank).ToList();
 
             Console.WriteLine("korlatok {0} {1} {2}",
-                constraints[constraint_count -1].ConstraintID,
-                constraints[constraint_count -1].MaxLimit,
-                constraints[constraint_count -1].Szp_ID);
+                constraints[constraintCount -1].ConstraintID,
+                constraints[constraintCount -1].MaxLimit,
+                constraints[constraintCount -1].Szp_ID);
 
             Console.WriteLine("jelentkezesek {0} {1} {2}",
-                applications[application_count -1].ApplicationID,
-                applications[application_count - 1].CompanyRank2,
-                applications[application_count - 1].CompanyID);
+                applications[applicationCount -1].ApplicationID,
+                applications[applicationCount - 1].CompanyRank2,
+                applications[applicationCount - 1].CompanyID);
 
 
             //writing lp file
@@ -98,63 +100,63 @@ namespace OR_test
             //jobs' maximum limit boundaries
 
                 //sorting the lists by companies
-            List<Application> sortedApplications = applications.OrderBy(a => a.CompanyID).ToList();
+            List<Application> applicationsByCompany = applications.OrderBy(a => a.CompanyID).ThenBy(a => a.StudentID).ToList();
             List<Constraint> sortedConstraints = constraints.OrderBy(c => c.CompanyID).ToList();
 
             int company = applications[0].CompanyID;
             int constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
 
             writer.WriteLine("kSZP" + company + ":");
-            for (int i = 0; i < sortedApplications.Count; i++)
+            for (int i = 0; i < applicationsByCompany.Count; i++)
             {
-                if(company != sortedApplications[i].CompanyID)
+                if(company != applicationsByCompany[i].CompanyID)
                 {
                     writer.WriteLine("<= " + constraints[constraintIndex].MaxLimit);
-                    company = sortedApplications[i].CompanyID;
+                    company = applicationsByCompany[i].CompanyID;
                     constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
                     writer.WriteLine("kSZP" + company + ":");
                 }
-                writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
+                writer.WriteLine(" + X" + applicationsByCompany[i].StudentID + "_" + applicationsByCompany[i].CompanyID);
             }
             writer.WriteLine("<= " + constraints[constraintIndex].MaxLimit);
 
             //jobs' minimum limit boundaries
 
-            company = sortedApplications[0].CompanyID;
+            company = applicationsByCompany[0].CompanyID;
             constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
 
             writer.WriteLine("kSZPa" + company + ":");
-            for (int i = 0; i < sortedApplications.Count; i++)
+            for (int i = 0; i < applicationsByCompany.Count; i++)
             {
-                if (company != sortedApplications[i].CompanyID)
+                if (company != applicationsByCompany[i].CompanyID)
                 {
                     writer.WriteLine("=> " + constraints[constraintIndex].MinLimit);
-                    company = sortedApplications[i].CompanyID;
+                    company = applicationsByCompany[i].CompanyID;
                     constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
                     writer.WriteLine("kSZPa" + company + ":");
                 }
-                writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
+                writer.WriteLine(" + X" + applicationsByCompany[i].StudentID + "_" + applicationsByCompany[i].CompanyID);
             }
             writer.WriteLine(">= " + constraints[constraintIndex].MinLimit);
 
             //jobs' foreign limitations (maximum number of foreign students per job)
 
-            company = sortedApplications[0].CompanyID;
+            company = applicationsByCompany[0].CompanyID;
             constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
 
             writer.WriteLine("kSZPk" + company + ":");
-            for (int i = 0; i < sortedApplications.Count; i++)
+            for (int i = 0; i < applicationsByCompany.Count; i++)
             {
-                if (company != sortedApplications[i].CompanyID)
+                if (company != applicationsByCompany[i].CompanyID)
                 {
                     writer.WriteLine("<= 2");
-                    company = sortedApplications[i].CompanyID;
+                    company = applicationsByCompany[i].CompanyID;
                     constraintIndex = constraints.IndexOf(constraints.Where(c => c.CompanyID == company).FirstOrDefault());
                     writer.WriteLine("kSZPk" + company + ":");
                 }
-                if (sortedApplications[i].Attribute1)
+                if (applicationsByCompany[i].Attribute1)
                 {
-                    writer.WriteLine(" + X" + sortedApplications[i].StudentID + "_" + sortedApplications[i].CompanyID);
+                    writer.WriteLine(" + X" + applicationsByCompany[i].StudentID + "_" + applicationsByCompany[i].CompanyID);
                 }
             }
             writer.WriteLine("<= 2");
@@ -182,7 +184,7 @@ namespace OR_test
                     iCompare = i;
                 }
 
-                while (sortedApplications[k].CompanyID != company)
+                while (applicationsByCompany[k].CompanyID != company)
                 {
                     k++;
                 }
@@ -199,13 +201,13 @@ namespace OR_test
 
                 do
                 {
-                    Console.WriteLine("- X" + sortedApplications[k].StudentID + "_" + sortedApplications[k].CompanyID);
+                    Console.WriteLine("- X" + applicationsByCompany[k].StudentID + "_" + applicationsByCompany[k].CompanyID);
                     Console.WriteLine(" + B" + applications[i].StudentID + "_" + applications[i].CompanyID + ">= 0");
 
                     writer2.WriteLine(" + 100 B" + applications[i].StudentID + "_" + applications[i].CompanyID);
 
                     k++;
-                } while (sortedApplications[k].CompanyID == company);
+                } while (applicationsByCompany[k].CompanyID == company);
 
             }
             writer.Close();
