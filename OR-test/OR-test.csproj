@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Google.OrTools" />
     <None Remove="Files\" />
+    <None Remove="Old\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.OrTools" Version="9.4.1874" />
@@ -22,5 +23,8 @@
     <None Update="Files\korlatok_szuk.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Old\" />
   </ItemGroup>
 </Project>

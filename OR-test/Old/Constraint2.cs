@@ -1,9 +1,9 @@
 ﻿using System;
 namespace OR_test
 {
-	public class Constraint
+	public class Constraint2
 	{
-		public Constraint()
+		public Constraint2()
 		{
 		}
 		public int ConstraintID;
