@@ -254,48 +254,132 @@ namespace OR_test
 
            void NewCode()
             {
+
+                //invoking solver
                 Solver solver = Solver.CreateSolver("SCIP");
                 if (solver is null)
                 {
                     return;
                 }
 
-                Variable[,] x = new Variable[37, 9];
-                int[,] costs = new int[37, 9];
-
+                //reading student preferences
+                List<int[]> studentList = new List<int[]>(); 
                 StreamReader reader = new StreamReader("Files/preferences.txt");
-                int rowNumber = 0;
+                int rowIndex = 0;
                 while (!reader.EndOfStream)
                 {
                     string[] row = reader.ReadLine().Split("\t");
                     int columnNumber = row.Length;
-                    for (int i = 0; i < columnNumber; i++)
+                    int[] rowInt = new int[columnNumber];
+                    for (int columnIndex = 0; columnIndex < columnNumber; columnIndex++)
                     {
-                        costs[rowNumber, columnNumber] = Convert.ToInt32(row[columnNumber]);
+                        rowInt[columnIndex] = Convert.ToInt32(row[columnIndex]);
                     }
-                    
+                    studentList.Add(rowInt);
+                    rowIndex++;
+                }
+                reader.Close();
+
+
+                //making variables
+                int studentNumber = studentList.Count();
+                int companyNumber = studentList[0].Length;
+                int[,] studentPreferences = new int[studentNumber, companyNumber];
+                Variable[,] x = new Variable[studentNumber, companyNumber];
+
+                for (int student = 0; student < studentNumber; student++)
+                {
+                    for (int company = 0; company < companyNumber; company++)
+                    {
+                        studentPreferences[student, company] = studentList[student][company];
+                    }
                 }
 
 
-                for (int i = 0; i < 37; i++)
+                //reading companies preferences
+                int[,] companyPreferences = new int[studentNumber, companyNumber];
+                reader = new StreamReader("companyPreferences.txt");
+                for (int student = 0; student < studentNumber; student++)
                 {
-                    for (int j = 0; j < 9; j++)
+                    string[] row = reader.ReadLine().Split("\t");
+                    for (int company = 0; company < companyNumber; company++)
                     {
-                        solver.MakeIntVar(0, 1, $"x{i}_{j}");
+                        companyPreferences[student, company] = Convert.ToInt32(row[company]);
+                    }
+                }
+
+
+                //making boolean variables for modeling
+                for (int student = 0; student < studentNumber; student++)
+                {
+                    for (int company = 0; company < companyNumber; company++)
+                    {
+                        x[student,company] = solver.MakeBoolVar($"x{student}_{company}");
                     }
                 }
 
                 //applicant's boundaries (1 applicant can only be assigned to one job)
-                for (int i = 0; i < 37; i++)
+                for (int student = 0; student < studentNumber; student++)
                 {
-                    Constraint constraint = solver.MakeConstraint(0, 1, "");
-                    for (int j = 0; j < 9; j++)
+                    Constraint constraint = solver.MakeConstraint(1, 1, "");
+                    for (int company = 0; company < companyNumber; company++)
                     {
-                        constraint.SetCoefficient(x[i, j], 1);
+                        constraint.SetCoefficient(x[student, company], 1);
                     }
                 }
 
+
+                //jobs' boundaries (currently not real limits)
+                for (int company = 0; company < companyNumber; company++)
+                {
+                    Constraint constraint = solver.MakeConstraint(1, 5, "");
+                    for (int student = 0; student < studentNumber; student++)
+                    {
+                        constraint.SetCoefficient(x[student, company], 1);
+                    }
+                }
+
+                //objective
+                Objective objective = solver.Objective();
+                for (int student = 0; student < studentNumber; student++)
+                {
+                    for (int company = 0; company < companyNumber; company++)
+                    {
+                        objective.SetCoefficient(x[student, company], studentPreferences[student, company]);
+                    }
+                }
+                objective.SetMinimization();
+
+
+                //solving
+                Solver.ResultStatus resultStatus = solver.Solve();
+
+                //reading solver output
+                if (resultStatus == Solver.ResultStatus.OPTIMAL || resultStatus == Solver.ResultStatus.FEASIBLE)
+                {
+                    for (int student = 0; student < studentNumber; student++)
+                    {
+                        for (int company = 0; company < companyNumber; company++)
+                        {
+                            if (x[student, company].SolutionValue() > 0.5)
+                            {
+                                Console.WriteLine($"Student {student} assigned to job {company}");
+                            }
+                            else
+                            {
+                                //Console.WriteLine($"Student {i} NOT assigned to job {j}");
+                            }
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    Console.WriteLine("No solution found");
+                }
             }
+
+            NewCode();
         }
     }
 }
