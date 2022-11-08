@@ -1,6 +1,8 @@
 ﻿using Google.OrTools.LinearSolver;
+using OR_test.New;
 using System.IO;
 using System.Reflection.PortableExecutable;
+using System.Xml.Linq;
 
 namespace OR_test
 {
@@ -8,7 +10,7 @@ namespace OR_test
     {
         public static void Main()
         {
-           void Old()
+            void Old()
             {
                 //reading csv files
                 int constraintCount;
@@ -252,7 +254,7 @@ namespace OR_test
                 writer.Close();
             }
 
-           void NewCode()
+            void OrToolsTest()
             {
 
                 //invoking solver
@@ -263,7 +265,7 @@ namespace OR_test
                 }
 
                 //reading student preferences
-                List<int[]> studentList = new List<int[]>(); 
+                List<int[]> studentList = new List<int[]>();
                 StreamReader reader = new StreamReader("Files/preferences.txt");
                 int rowIndex = 0;
                 while (!reader.EndOfStream)
@@ -314,7 +316,7 @@ namespace OR_test
                 {
                     for (int company = 0; company < companyNumber; company++)
                     {
-                        x[student,company] = solver.MakeBoolVar($"x{student}_{company}");
+                        x[student, company] = solver.MakeBoolVar($"x{student}_{company}");
                     }
                 }
 
@@ -371,7 +373,7 @@ namespace OR_test
                             }
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -379,7 +381,143 @@ namespace OR_test
                 }
             }
 
-            NewCode();
+            void NuGetTest()
+            {
+                List<Student> students = new List<Student>();
+                Student student = new Student(id: 0, name: "FirstStudent", preferences: new int[] { 1, 2, 3 });
+                students.Add(student);
+                student = new Student(id: 1, name: "SecondStudent", preferences: new int[] { 3, 2, 1 });
+                students.Add(student);
+                student = new Student(id: 2, name: "ThirdStudent", preferences: new int[] { 2, 1, 3 });
+                students.Add(student);
+
+
+                List<Job> jobs = new List<Job>();
+                Job job = new Job(id: 0, name: "FirstJob", preferences: new int[] { 3, 2, 1 }, minimumCapacity: 1, maximumCapacity: 3);
+                jobs.Add(job);
+                job = new Job(id: 0, name: "SecondJob", preferences: new int[] { 1, 2, 3 }, minimumCapacity: 1, maximumCapacity: 3);
+                jobs.Add(job);
+                job = new Job(id: 0, name: "ThirdJob", preferences: new int[] { 2, 3, 1 }, minimumCapacity: 1, maximumCapacity: 3);
+                jobs.Add(job);
+
+                List<ConstraintDynamic> constraints = new List<ConstraintDynamic>();
+                Dictionary<int, int> genderData = new Dictionary<int, int>() { { 0, 1 }, { 1, 1 }, { 2, 0 } };
+                ConstraintDynamic gender = new ConstraintDynamic(constraintType: "morethan", data: genderData);
+                constraints.Add(gender);
+
+
+                Dictionary<int, int> foreignData = new Dictionary<int, int>() {{ 0, 0 }, { 1,1}, { 2,1} };
+                ConstraintDynamic foreign = new ConstraintDynamic(constraintType: "moreThan", data: foreignData, lower: 1);
+
+                Solver solver = Solver.CreateSolver("SCIP");
+                if (solver is null)
+                {
+                    return;
+                }
+
+                int studentNumber = students.Count;
+                int companyNumber = jobs.Count;
+                int[,] studentPreferences = new int[studentNumber, companyNumber];
+                int[,] companyPreferences = new int[studentNumber, companyNumber];
+
+                for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                {
+                    for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                    {
+                        studentPreferences[studentIndex, companyIndex] = students[studentIndex].Preferences[companyIndex];
+                    }
+                }
+
+                for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                {
+                    for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                    {
+                        companyPreferences[studentIndex, companyIndex] = jobs[companyIndex].Preferences[studentIndex];
+                    }
+                }
+
+                Variable[,] x = new Variable[studentNumber, companyNumber];
+                for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                {
+                    for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                    {
+                        x[studentIndex, companyIndex] = solver.MakeBoolVar($"x{studentIndex}_{companyIndex}");
+                    }
+                }
+
+
+                //applicant's boundaries (1 applicant can only be assigned to one job)
+                for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                {
+                    Constraint constraint = solver.MakeConstraint(1, 1, "");
+                    for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                    {
+                        constraint.SetCoefficient(x[studentIndex, companyIndex], 1);
+                    }
+                }
+
+
+                //jobs' boundaries
+                for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                {
+                    int minLimit = jobs[companyIndex].MinimumCapacity;
+                    int maxLimit = jobs[companyIndex].MaximumCapacity;
+
+                    Constraint constraint = solver.MakeConstraint(minLimit, maxLimit, "");
+                    for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                    {
+                        constraint.SetCoefficient(x[studentIndex, companyIndex], 1);
+                    }
+                }
+
+
+                //objective
+                Objective objective = solver.Objective();
+                for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                {
+                    for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                    {
+                        objective.SetCoefficient(x[studentIndex, companyIndex], studentPreferences[studentIndex, companyIndex]);
+                    }
+                }
+                objective.SetMinimization();
+
+
+                //solving
+                Solver.ResultStatus resultStatus = solver.Solve();
+
+                //reading solver output
+                if (resultStatus == Solver.ResultStatus.OPTIMAL || resultStatus == Solver.ResultStatus.FEASIBLE)
+                {
+                    for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                    {
+                        for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                        {
+                            if (x[studentIndex, companyIndex].SolutionValue() > 0.5)
+                            {
+                                Console.WriteLine($"Student {studentIndex} assigned to job {companyIndex}");
+                            }
+                            else
+                            {
+                                //Console.WriteLine($"Student {i} NOT assigned to job {j}");
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("No solution found");
+                }
+
+
+            }
+
+
+
+
+            NuGetTest();
+
         }
     }
 }
