@@ -55,7 +55,7 @@ namespace OR_test
                     {
                         ApplicationID = Convert.ToInt32(tmp[0]),
                         StudentRank = Convert.ToInt32(tmp[1]),
-                        CompanyRank = Convert.ToInt32(tmp[2]),
+                        CompanyPoint = Convert.ToInt32(tmp[2]),
                         CompanyRank2 = Convert.ToInt32(tmp[3]),
                         ApplicationID2 = Convert.ToInt32(tmp[4]),
                         StudentID = Convert.ToInt32(tmp[5]),
@@ -68,7 +68,9 @@ namespace OR_test
                 applicationCount = applications.Count;
 
                 applicationsByRank = applications.OrderBy(a => a.StudentID).ThenBy(a => a.StudentRank).ToList();
-
+                Console.WriteLine(applicationsByRank[0].ApplicationID);
+                Console.WriteLine(applicationsByRank[1].ApplicationID);
+                Console.WriteLine(applicationsByRank[2].ApplicationID);
                 //writing lp file
 
                 //objective (minimizing the preferences)
@@ -101,6 +103,9 @@ namespace OR_test
 
                 //sorting the lists by companies
                 applicationsByCompany = applications.OrderBy(a => a.CompanyID).ThenBy(a => a.StudentID).ToList();
+                
+
+
                 List<Constraint2> sortedConstraints = constraints.OrderBy(c => c.CompanyID).ToList();
 
                 int company = applications[0].CompanyID;
@@ -224,7 +229,7 @@ namespace OR_test
                     {
                         //Console.WriteLine("Check: ({0} < {1}) && ({2} != {3}) && {4} > 0", applicationsByCompany[k].CompanyRank, applicationsByRank[i].CompanyRank, applicationsByCompany[k].StudentID, applicationsByRank[i].StudentID, applicationsByRank[i].StudentRank);
 
-                        if ((applicationsByCompany[k].CompanyRank < applicationsByRank[i].CompanyRank) && (applicationsByCompany[k].StudentID != applicationsByRank[i].StudentID) && applicationsByRank[i].StudentRank > 0)
+                        if ((applicationsByCompany[k].CompanyPoint < applicationsByRank[i].CompanyPoint) && (applicationsByCompany[k].StudentID != applicationsByRank[i].StudentID) && applicationsByRank[i].StudentRank > 0)
                         {
                             //Console.WriteLine("Check True");
 
@@ -392,12 +397,12 @@ namespace OR_test
                 students.Add(student);
 
 
-                List<Job> jobs = new List<Job>();
-                Job job = new Job(id: 0, name: "FirstJob", preferences: new int[] { 3, 2, 1 }, minimumCapacity: 1, maximumCapacity: 3);
+                List<Company> jobs = new List<Company>();
+                Company job = new Company(id: 0, name: "FirstJob", studentPoints: new int[] { 3, 2, 1 }, minimumCapacity: 1, maximumCapacity: 3);
                 jobs.Add(job);
-                job = new Job(id: 0, name: "SecondJob", preferences: new int[] { 1, 2, 3 }, minimumCapacity: 1, maximumCapacity: 3);
+                job = new Company(id: 0, name: "SecondJob", studentPoints: new int[] { 1, 2, 3 }, minimumCapacity: 1, maximumCapacity: 3);
                 jobs.Add(job);
-                job = new Job(id: 0, name: "ThirdJob", preferences: new int[] { 2, 3, 1 }, minimumCapacity: 1, maximumCapacity: 3);
+                job = new Company(id: 0, name: "ThirdJob", studentPoints: new int[] { 2, 3, 1 }, minimumCapacity: 1, maximumCapacity: 3);
                 jobs.Add(job);
 
                 List<ConstraintDynamic> constraints = new List<ConstraintDynamic>();
@@ -414,7 +419,8 @@ namespace OR_test
                 {
                     return;
                 }
-
+                solver.EnableOutput();
+                
                 int studentNumber = students.Count;
                 int companyNumber = jobs.Count;
                 int[,] studentPreferences = new int[studentNumber, companyNumber];
@@ -432,7 +438,7 @@ namespace OR_test
                 {
                     for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
                     {
-                        companyPreferences[studentIndex, companyIndex] = jobs[companyIndex].Preferences[studentIndex];
+                        companyPreferences[studentIndex, companyIndex] = jobs[companyIndex].StudentPoints[studentIndex];
                     }
                 }
 
@@ -449,7 +455,7 @@ namespace OR_test
                 //applicant's boundaries (1 applicant can only be assigned to one job)
                 for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
                 {
-                    Constraint constraint = solver.MakeConstraint(1, 1, "");
+                    Constraint constraint = solver.MakeConstraint(1, 1, $"applicant_{studentIndex}");
                     for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
                     {
                         constraint.SetCoefficient(x[studentIndex, companyIndex], 1);
@@ -470,6 +476,45 @@ namespace OR_test
                     }
                 }
 
+                //stability //todo: make "B" variables
+                for (int studentIndex = 0; studentIndex < studentNumber; studentIndex++)
+                {
+                    for (int companyIndex = 0; companyIndex < companyNumber; companyIndex++)
+                    {
+                        int studentPoint = jobs[companyIndex].StudentPoints[studentIndex];
+
+                        List<Student> worseStudents = new List<Student>();
+                        for (int studentIndex2 = 0; studentIndex2 < studentNumber; studentIndex2++)
+                        {
+                            if (jobs[companyIndex].StudentPoints[studentIndex2] < studentPoint)
+                            {
+                                worseStudents.Add(students[studentIndex2]);
+                                Console.WriteLine($"Student {studentIndex} has more points than {studentIndex2} at job {companyIndex}");
+                            }
+                        }
+
+
+                        foreach (Student worseStudent in worseStudents)
+                        {
+                            Constraint constraint = solver.MakeConstraint();
+                            constraint.SetLb(0);
+
+                            for (int companyIndex2 = 0; companyIndex2 <= companyIndex; companyIndex2++)
+                            {
+                                constraint.SetCoefficient(x[studentIndex, companyIndex2], 1);
+                                Console.Write($"+ x{studentIndex}_{companyIndex2} ");
+                            }
+                            
+                            constraint.SetCoefficient(x[worseStudent.ID, companyIndex], -1);
+                            
+
+                            Console.WriteLine($"- x{worseStudent.ID}_{companyIndex}");
+                        }
+
+                    }
+
+                }
+
 
                 //objective
                 Objective objective = solver.Objective();
@@ -482,7 +527,7 @@ namespace OR_test
                 }
                 objective.SetMinimization();
 
-
+                string asd = solver.ExportModelAsLpFormat(true);
                 //solving
                 Solver.ResultStatus resultStatus = solver.Solve();
 
@@ -514,7 +559,7 @@ namespace OR_test
             }
 
 
-
+            //Old();
 
             NuGetTest();
 

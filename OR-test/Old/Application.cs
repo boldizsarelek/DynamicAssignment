@@ -8,7 +8,7 @@ namespace OR_test
         }
         public int ApplicationID;
         public int StudentRank;
-        public int CompanyRank;
+        public int CompanyPoint;
         public int CompanyRank2;
         public int ApplicationID2;
         public int StudentID;
