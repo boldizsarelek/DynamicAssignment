@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj": {}
+  },
+  "projects": {
+    "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj",
+        "projectName": "DynamicAssignment",
+        "projectPath": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj",
+        "packagesPath": "/Users/boldizsarelek/.nuget/packages/",
+        "outputPath": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/boldizsarelek/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

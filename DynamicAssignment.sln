@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OR-test", "OR-test\OR-test.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "New Folder", "New Folder", "{6823F0D9-45BC-4A37-8E35-5B373A4811C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicAssignment", "DynamicAssignment\DynamicAssignment.csproj", "{839407D7-6DD8-4426-9ADE-EAF84BC840F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{10CEAB94-4363-4140-8B91-B38F3041DEBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10CEAB94-4363-4140-8B91-B38F3041DEBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10CEAB94-4363-4140-8B91-B38F3041DEBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
