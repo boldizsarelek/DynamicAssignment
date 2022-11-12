@@ -3,42 +3,53 @@ namespace OR_test.New
 {
     public class ConstraintDynamic
     {
-        public enum ConstraintType
+
+        //Dynamic data to attach to applicants
+        //Key:  StudentID
+        public Dictionary<int, int> Data { get; set; }
+        private enum ConstraintType
         {
             LessThan,
             MoreThan,
             Between,
         }
 
-        public ConstraintType TypeofConstraint { get; set; }
-        public Dictionary<int, int> Data {get; set;}
-        public int? Lower;
-        public int? Upper;
-        public ConstraintDynamic(string constraintType, Dictionary<int, int> data, int? lower = null, int? upper = null)
+        private ConstraintType Type;
+
+        private int? Lower;
+        private int? Upper;
+
+        public ConstraintDynamic(Dictionary<int, int> data)
         {
-
-            //todo: error handling/ making three constructors
-            switch (constraintType)
-            {
-                case "lessThan":
-                    this.TypeofConstraint = ConstraintType.LessThan;
-                    this.Upper = upper;
-                    break;
-                case "moreThan":
-                    this.TypeofConstraint = ConstraintType.MoreThan;
-                    this.Lower = lower;
-                    break;
-                case "between":
-                    this.TypeofConstraint = ConstraintType.Between;
-                    this.Upper = upper;
-                    this.Lower = lower;
-                    break;
-                default:
-                    break;
-
-            }
-            this.Data = data;
+           Data = data;
         }
+        public ConstraintDynamic(Dictionary<int, int> data, int lowerBound, int upperBound)
+        {
+            Data = data;
+            Type = ConstraintType.Between;
+        }
+
+        public void SetLowerBound(int lb)
+        {
+            
+            Lower = lb;
+            if (Type == ConstraintType.LessThan)
+            {
+                Type = ConstraintType.Between;
+            }
+            else Type = ConstraintType.MoreThan;
+        }
+        public void SetUpperBound(int ub)
+        {
+            Upper = ub;
+            if (Type == ConstraintType.MoreThan)
+            {
+                Type = ConstraintType.Between;
+            }
+            else Type = ConstraintType.LessThan;
+        }
+
+    }
     }
 }
 
