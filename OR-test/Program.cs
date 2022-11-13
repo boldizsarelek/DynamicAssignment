@@ -528,6 +528,7 @@ namespace OR_test
                 objective.SetMinimization();
 
                 string asd = solver.ExportModelAsLpFormat(true);
+
                 //solving
                 Solver.ResultStatus resultStatus = solver.Solve();
 

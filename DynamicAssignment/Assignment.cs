@@ -9,6 +9,7 @@ namespace DynamicAssignment
         //Assignment data
         public List<Applicant> Applicants;
         public List<Receiver> Receivers;
+        public List<DynamicConstraint> DynamicConstraints;
 
         //Properties for assignment
         private string solverType;
@@ -35,6 +36,7 @@ namespace DynamicAssignment
         //Select solver to use
         public void SetSolver(string solver)
         {
+            solverType = solver;
             this.solver = Solver.CreateSolver(solver);
         }
 
@@ -132,6 +134,45 @@ namespace DynamicAssignment
                 for (int applicantIndex = 0; applicantIndex < Applicants.Count; applicantIndex++)
                 {
                     constraint.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                }
+            }
+
+
+
+            //Dynamic constraints
+            for (int constraintIndex = 0; constraintIndex < DynamicConstraints.Count; constraintIndex++)
+            {
+                switch (DynamicConstraints[constraintIndex].BoundType)
+                {
+                    case DynamicConstraint.ConstraintType.LessThan:
+                        for (int applicantIndex = 0; applicantIndex < DynamicConstraints[constraintIndex].Data.Count; applicantIndex++)
+                        {
+
+                        }
+
+
+                        break;
+                    case DynamicConstraint.ConstraintType.MoreThan:
+                        for (int applicantIndex = 0; applicantIndex < DynamicConstraints[constraintIndex].Data.Count; applicantIndex++)
+                        {
+
+                        }
+
+
+                        break;
+                    case DynamicConstraint.ConstraintType.Between:
+                        for (int applicantIndex = 0; applicantIndex < DynamicConstraints[constraintIndex].Data.Count; applicantIndex++)
+                        {
+
+                        }
+
+
+                        break;
+                    default:
+
+
+
+                        break;
                 }
             }
 

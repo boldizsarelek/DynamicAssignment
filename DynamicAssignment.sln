@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1703.5
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OR-test", "OR-test\OR-test.csproj", "{10CEAB94-4363-4140-8B91-B38F3041DEBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OR-test", "OR-test\OR-test.csproj", "{10CEAB94-4363-4140-8B91-B38F3041DEBB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "New Folder", "New Folder", "{6823F0D9-45BC-4A37-8E35-5B373A4811C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicAssignment", "DynamicAssignment\DynamicAssignment.csproj", "{839407D7-6DD8-4426-9ADE-EAF84BC840F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicAssignment", "DynamicAssignment\DynamicAssignment.csproj", "{839407D7-6DD8-4426-9ADE-EAF84BC840F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormsApp-Test", "FormsApp-Test\FormsApp-Test.csproj", "{336899A4-5EBA-4A80-AD63-DCE928472141}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +23,10 @@ Global
 		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336899A4-5EBA-4A80-AD63-DCE928472141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336899A4-5EBA-4A80-AD63-DCE928472141}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336899A4-5EBA-4A80-AD63-DCE928472141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336899A4-5EBA-4A80-AD63-DCE928472141}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "aez2/jC3XbN5BRMOOl7B2Rc3CS6B9X3pzdaLnoatui6rWBbYOw5n/82EThcCDAe2jC43m8cYWS/dhqHpOk1AxA==",
+  "dgSpecHash": "t6+KbtKqSVy+XAe40wpOwrvgMvhu1n5N7M9CTLG0wiHCTe7Dyj0bmff4CtppbQMfxhe0EJ99D967ZfNUPrwosw==",
   "success": true,
-  "projectFilePath": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools\\9.4.1874\\google.ortools.9.4.1874.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.linux-arm64\\9.4.1874\\google.ortools.runtime.linux-arm64.9.4.1874.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.linux-x64\\9.4.1874\\google.ortools.runtime.linux-x64.9.4.1874.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.osx-arm64\\9.4.1874\\google.ortools.runtime.osx-arm64.9.4.1874.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.osx-x64\\9.4.1874\\google.ortools.runtime.osx-x64.9.4.1874.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.win-x64\\9.4.1874\\google.ortools.runtime.win-x64.9.4.1874.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+  ],
   "logs": []
 }
