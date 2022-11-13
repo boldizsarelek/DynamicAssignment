@@ -140,34 +140,79 @@ namespace DynamicAssignment
 
 
             //Dynamic constraints
+
             for (int constraintIndex = 0; constraintIndex < DynamicConstraints.Count; constraintIndex++)
             {
                 switch (DynamicConstraints[constraintIndex].BoundType)
                 {
                     case DynamicConstraint.ConstraintType.LessThan:
-                        for (int applicantIndex = 0; applicantIndex < DynamicConstraints[constraintIndex].Data.Count; applicantIndex++)
+                        for (int receiverIndex = 0; receiverIndex < Receivers.Count; receiverIndex++)
                         {
+                            int maximum = DynamicConstraints[constraintIndex].GetLowerBound();
 
+                            Constraint constraint = solver.MakeConstraint(0, maximum, "");
+                            Constraint constraint2 = solver.MakeConstraint(0, maximum, "");
+                            for (int applicantIndex = 0; applicantIndex < Applicants.Count; applicantIndex++)
+                            {
+                                if(DynamicConstraints[constraintIndex].Data[applicantIndex])
+                                {
+                                    constraint.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                                }
+                                else
+                                {
+                                    constraint2.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                                }
+                            }
                         }
-
-
                         break;
+
                     case DynamicConstraint.ConstraintType.MoreThan:
-                        for (int applicantIndex = 0; applicantIndex < DynamicConstraints[constraintIndex].Data.Count; applicantIndex++)
+                        for (int receiverIndex = 0; receiverIndex < Receivers.Count; receiverIndex++)
                         {
+                            int minimum = DynamicConstraints[constraintIndex].GetUpperBound();
 
+                            Constraint constraint = solver.MakeConstraint();
+                            constraint.SetLb(minimum);
+                            Constraint constraint2 = solver.MakeConstraint();
+                            constraint2.SetLb(minimum);
+
+                            for (int applicantIndex = 0; applicantIndex < Applicants.Count; applicantIndex++)
+                            {
+                                if (DynamicConstraints[constraintIndex].Data[applicantIndex])
+                                {
+                                    constraint.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                                }
+                                else
+                                {
+                                    constraint2.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                                }
+                            }
                         }
-
-
                         break;
+
                     case DynamicConstraint.ConstraintType.Between:
-                        for (int applicantIndex = 0; applicantIndex < DynamicConstraints[constraintIndex].Data.Count; applicantIndex++)
+                        for (int receiverIndex = 0; receiverIndex < Receivers.Count; receiverIndex++)
                         {
+                            int maximum = DynamicConstraints[constraintIndex].GetLowerBound();
+                            int minimum = DynamicConstraints[constraintIndex].GetUpperBound();
 
+                            Constraint constraint = solver.MakeConstraint(minimum, maximum, "");
+                            Constraint constraint2 = solver.MakeConstraint(minimum, maximum, "");
+
+                            for (int applicantIndex = 0; applicantIndex < Applicants.Count; applicantIndex++)
+                            {
+                                if (DynamicConstraints[constraintIndex].Data[applicantIndex])
+                                {
+                                    constraint.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                                }
+                                else
+                                {
+                                    constraint2.SetCoefficient(variables[applicantIndex, receiverIndex], 1);
+                                }
+                            }
                         }
-
-
                         break;
+
                     default:
 
 
@@ -177,10 +222,52 @@ namespace DynamicAssignment
             }
 
 
-            //stability limitations //todo:check compatibility with Dictionary, group envyness
+            //stability limitations //todo:check compatibility with Dictionary 
             if (groupEnvyness)
             {
 
+                //iterating over dynamic constraints
+                for (int constraintIndex = 0; constraintIndex < DynamicConstraints.Count; constraintIndex++)
+                {
+                    //iterating over applicants
+                    for (int applicantIndex = 0; applicantIndex < Applicants.Count; applicantIndex++)
+                    {
+
+                        //iterating over receivers
+                        for (int receiverIndex = 0; receiverIndex < Receivers.Count; receiverIndex++)
+                        {
+
+                            //checking applicants points at receiver
+                            int applicantpoint = Receivers[receiverIndex].Preferences[applicantIndex];
+
+
+                            //searching for applicants who has less points at the same subgroup
+                            List<Applicant> worseApplicants = new List<Applicant>();
+                            for (int applicantIndex2 = 0; applicantIndex2 < Applicants.Count; applicantIndex2++)
+                            {
+                                if (Receivers[receiverIndex].Preferences[applicantIndex2] < applicantpoint && DynamicConstraints[constraintIndex].Data[applicantIndex2] == DynamicConstraints[constraintIndex].Data[applicantIndex])
+                                {
+                                    worseApplicants.Add(Applicants[applicantIndex2]);
+                                }
+                            }
+
+
+                            //Creating constraint for envy freeness
+                            foreach (Applicant worseApplicant in worseApplicants)
+                            {
+                                Constraint constraint = solver.MakeConstraint();
+                                constraint.SetLb(0);
+
+                                for (int receiverIndex2 = 0; receiverIndex2 <= receiverIndex; receiverIndex2++)
+                                {
+                                    constraint.SetCoefficient(variables[applicantIndex, receiverIndex2], 1);
+
+                                }
+                                constraint.SetCoefficient(variables[worseApplicant.ID, receiverIndex], -1);
+                            }
+                        }
+                    }
+                }
             }
             else
             {

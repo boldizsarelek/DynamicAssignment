@@ -8,7 +8,7 @@ namespace DynamicAssignment
     {
         //Dynamic data to attach to applicants
         //Key:  StudentID
-        public Dictionary<int, int> Data;
+        public Dictionary<int, bool> Data;
         public enum ConstraintType
         {
             LessThan,
@@ -18,23 +18,25 @@ namespace DynamicAssignment
 
         public ConstraintType BoundType;
 
-        private int? Lower;
-        private int? Upper;
+        private int lower;
+        private int upper;
 
-        public DynamicConstraint(Dictionary<int, int> data)
+        public DynamicConstraint(Dictionary<int, bool> data)
         {
             Data = data;
         }
-        public DynamicConstraint(Dictionary<int, int> data, int lowerBound, int upperBound)
+        public DynamicConstraint(Dictionary<int, bool> data, int lowerBound, int upperBound)
         {
             Data = data;
+            lower = lowerBound;
+            upper= upperBound;
             BoundType = ConstraintType.Between;
         }
 
         public void SetLowerBound(int lb)
         {
 
-            Lower = lb;
+            lower = lb;
             if (BoundType == ConstraintType.LessThan)
             {
                 BoundType = ConstraintType.Between;
@@ -43,12 +45,22 @@ namespace DynamicAssignment
         }
         public void SetUpperBound(int ub)
         {
-            Upper = ub;
+            upper = ub;
             if (BoundType == ConstraintType.MoreThan)
             {
                 BoundType = ConstraintType.Between;
             }
             else BoundType = ConstraintType.LessThan;
+        }
+
+        public int GetLowerBound()
+        {
+            return lower;
+        }
+
+        public int GetUpperBound()
+        {
+            return upper;
         }
     }
 }
