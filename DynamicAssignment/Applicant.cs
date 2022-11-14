@@ -7,7 +7,7 @@ namespace DynamicAssignment
     {
         public int ID;
         public string Name;
-        public Dictionary<int, int> Preferences;
+        public Dictionary<int, int> Preferences; //to be deleted
 
         public Applicant(int id, string name, Dictionary<int,int> preferences)
         {
