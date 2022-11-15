@@ -30,6 +30,7 @@ namespace DynamicAssignment
         private Dictionary<int, Dictionary<int, Variable>> variables2;
        
 
+        //redesign!
         public Assignment(List<Applicant> applicants, List<Receiver> receivers)
         {
             Applicants = applicants;
@@ -71,6 +72,83 @@ namespace DynamicAssignment
             this.assignEach = assignEach;
         }
 
+        public void RemoveApplicant(int ID)
+        {
+            foreach(Application application in Applications)
+            {
+                if (application.applicant.ID == ID)
+                {
+                    Applications.Remove(application);
+                }
+            }
+            Applicant applicantToRemove = (from applicant in Applicants
+                                           where applicant.ID == ID
+                                           select applicant).FirstOrDefault();
+            Applicants.Remove(applicantToRemove);
+
+            //Make it work with dynamic constraints
+        }
+
+        public void RemoveReceiver(int ID)
+        {
+            foreach (Application application in Applications)
+            {
+                if (application.receiver.ID == ID)
+                {
+                    Applications.Remove(application);
+                }
+            }
+            Receiver receiverToRemove = (from receiver in Receivers
+                                           where receiver.ID == ID
+                                           select receiver).FirstOrDefault();
+            Receivers.Remove(receiverToRemove);
+
+            //Make it work with dynamic constraints
+        }
+
+        public void AddApplicant(Applicant applicant, Application[] applications)
+        {
+            if (applications.Length != Receivers.Count)
+            {
+                
+                return;
+            }
+            else
+            {
+                Applicants.Add(applicant);
+                for (int i = 0; i < applications.Length; i++)
+                {
+                    Applications.Add(applications[i]);
+                }
+            }
+
+            //Make it work with dynamic constraints
+
+        }
+
+        public void AddReceiver(Receiver receiver, Application[] applications)
+        {
+            if (applications.Length != Applicants.Count)
+            {
+
+                return;
+            }
+            else
+            {
+                Receivers.Add(receiver);
+                for (int i = 0; i < applications.Length; i++)
+                {
+                    Applications.Add(applications[i]);
+                }
+            }
+
+
+            //Make it work with dynamic constraints
+
+        }
+
+
+
         //Run solver and receive results
         public Solver.ResultStatus Solve()
         {
@@ -100,6 +178,7 @@ namespace DynamicAssignment
             {
                 variables2[application.applicantPreference][application.receiverPreference] = solver.MakeBoolVar($"x{application.applicant.ID}_{application.receiver.ID}");
             }
+
         }
 
         //Create constraints for solver
