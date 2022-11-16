@@ -1,14 +1,14 @@
 ﻿using System;
 namespace DynamicAssignment
 {
-	public class Application
+	public class ApplicantReceiver
 	{
         public Applicant applicant;
         public Receiver receiver;
 		public int applicantPreference;
 		public int receiverPreference;
 
-        public Application()
+        public ApplicantReceiver()
 		{
 			
 

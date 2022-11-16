@@ -6,9 +6,18 @@ namespace DynamicAssignment
 {
     public class DynamicConstraint
     {
+        public ApplicantDynamicConstraint[] Data
+        {
+            get
+            {
+                return constraintDatas.ToArray();
+            }
+        }
+
+
         //Dynamic data to attach to applicants
         //Key:  StudentID
-        public Dictionary<int, bool> Data;
+        public List<ApplicantDynamicConstraint> constraintDatas;
         public enum ConstraintType
         {
             LessThan,
@@ -21,13 +30,13 @@ namespace DynamicAssignment
         private int lower;
         private int upper;
 
-        public DynamicConstraint(Dictionary<int, bool> data)
+        public DynamicConstraint(List<ApplicantDynamicConstraint> data)
         {
-            Data = data;
+            constraintDatas = data;
         }
-        public DynamicConstraint(Dictionary<int, bool> data, int lowerBound, int upperBound)
+        public DynamicConstraint(List<ApplicantDynamicConstraint> data, int lowerBound, int upperBound)
         {
-            Data = data;
+            constraintDatas = data;
             lower = lowerBound;
             upper= upperBound;
             BoundType = ConstraintType.Between;
