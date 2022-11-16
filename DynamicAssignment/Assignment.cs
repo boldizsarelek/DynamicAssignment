@@ -372,7 +372,6 @@ namespace DynamicAssignment
                                 }
                                 constraint.SetCoefficient(variables[worseApplicant.ID, receiverIndex], -1);
                             }
-
                         }
                     }
 
@@ -400,14 +399,16 @@ namespace DynamicAssignment
                                                                    where application.receiverPreference < applicantPoints
                                                                    select application.applicant).ToList();
 
+                                List<Receiver> betterReceivers = (from application in Applications
+                                                                  where application.applicantPreference < applicantPreference
+                                                                  select application.receiver).ToList();
+
                                 foreach (Applicant worseApplicant in worseApplicants)
                                 {
                                     Constraint constraint = solver.MakeConstraint();
                                     constraint.SetLb(0);
 
-                                    List<Receiver> betterReceivers = (from application in Applications
-                                                                      where application.applicantPreference > applicantPreference
-                                                                      select application.receiver).ToList();
+                                   
 
                                     foreach (Receiver betterReceiver in Receivers)
                                     {
@@ -421,45 +422,44 @@ namespace DynamicAssignment
 
                     else
                     {
-                        foreach(Applicant applicant in Applicants)
+                        foreach(Receiver receiver in Receivers)
                         {
-                            foreach (Receiver receiver in Receivers)
+                            foreach (Applicant applicant in Applicants)
                             {
-                                int applicantPoints = (from application in Applications
-                                                       where application.applicant.ID == applicant.ID
-                                                       && application.receiver.ID == receiver.ID
-                                                       select application.receiverPreference).FirstOrDefault();
-
-
+                                
                                 int applicantPreference = (from application in Applications
                                                            where application.applicant.ID == applicant.ID
                                                            && application.receiver.ID == receiver.ID
                                                            select application.applicantPreference).FirstOrDefault();
 
-                                List<Applicant> worseApplicants = (from application in Applications
-                                                                   where application.receiverPreference < applicantPoints
+
+                                int applicantPoints = (from application in Applications
+                                                       where application.applicant.ID == applicant.ID
+                                                       && application.receiver.ID == receiver.ID
+                                                       select application.receiverPreference).FirstOrDefault();
+
+                                List<Applicant> worseReceivers = (from application in Applications
+                                                                   where application.applicantPreference > applicantPreference
                                                                    select application.applicant).ToList();
 
-                                foreach (Applicant worseApplicant in worseApplicants)
+                                List<Receiver> betterApplicants = (from application in Applications
+                                                                   where application.receiverPreference > applicantPreference
+                                                                   select application.receiver).ToList();
+
+                                foreach (Applicant worseReceiver in worseReceivers)
                                 {
                                     Constraint constraint = solver.MakeConstraint();
                                     constraint.SetLb(0);
-
-                                    List<Receiver> betterReceivers = (from application in Applications
-                                                                      where application.applicantPreference > applicantPreference
-                                                                      select application.receiver).ToList();
 
                                     foreach (Receiver betterReceiver in Receivers)
                                     {
                                         constraint.SetCoefficient(variables2[applicant.ID][betterReceiver.ID], 1);
                                     }
-                                    constraint.SetCoefficient(variables2[worseApplicant.ID][receiver.ID], 1);
+                                    constraint.SetCoefficient(variables2[worseReceiver.ID][receiver.ID], 1);
                                 }
                             }
                         }
                     }
-                    
-
                 }
             }
 
@@ -665,7 +665,7 @@ namespace DynamicAssignment
                     }
                 }
 
-                //with dictionary
+               //with dictionary
                foreach (ApplicantReceiver application in Applications)
                 {
                     int preference = application.applicantPreference;
@@ -674,8 +674,6 @@ namespace DynamicAssignment
 
                 objective.SetMinimization();
             }
-
-
 
             else
             {
