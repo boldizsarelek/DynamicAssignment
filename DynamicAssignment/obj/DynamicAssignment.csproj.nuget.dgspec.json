@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj": {}
+    "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj": {}
   },
   "projects": {
-    "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj": {
+    "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj",
+        "projectUniqueName": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj",
         "projectName": "DynamicAssignment",
-        "projectPath": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj",
+        "projectPath": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj",
         "packagesPath": "/Users/boldizsarelek/.nuget/packages/",
-        "outputPath": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/obj/",
+        "outputPath": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/boldizsarelek/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -35,12 +35,12 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Google.OrTools": {
               "target": "Package",
-              "version": "[9.4.1874, )"
+              "version": "[9.5.2237, )"
             }
           },
           "imports": [
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
         }
       }
     }

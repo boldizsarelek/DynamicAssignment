@@ -6,7 +6,7 @@ namespace DynamicAssignment
 		public Applicant Applicant;
 		public DynamicConstraint DynamicConstraint;
 		public bool Data;
-
+		public int ConstraintID;
 
 		public ApplicantDynamicConstraint()
 		{

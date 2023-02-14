@@ -1,25 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "Q4NAI08tCg4YlmrPC3R/OL7HNAOoGwtCniWSVTNwCwfihxa3PXMLpKEv00vuxnxKTBpFGiqEWMr39Cvow2FVMg==",
+  "dgSpecHash": "gmJHqGnvKFi5hkK4EhIpia1rVApzcuU4055ZfQcqb34hGrRXjPYWx9YT6W1KaRwtcLNV7hHErRNmDvlRA1maVw==",
   "success": true,
-  "projectFilePath": "/Users/boldizsarelek/Projects/OR-test/DynamicAssignment/DynamicAssignment.csproj",
+  "projectFilePath": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj",
   "expectedPackageFiles": [
-    "/Users/boldizsarelek/.nuget/packages/google.ortools/9.4.1874/google.ortools.9.4.1874.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.linux-arm64/9.4.1874/google.ortools.runtime.linux-arm64.9.4.1874.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.linux-x64/9.4.1874/google.ortools.runtime.linux-x64.9.4.1874.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.osx-arm64/9.4.1874/google.ortools.runtime.osx-arm64.9.4.1874.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.osx-x64/9.4.1874/google.ortools.runtime.osx-x64.9.4.1874.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.win-x64/9.4.1874/google.ortools.runtime.win-x64.9.4.1874.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.protobuf/3.19.4/google.protobuf.3.19.4.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/system.runtime.compilerservices.unsafe/4.5.2/system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+    "/Users/boldizsarelek/.nuget/packages/google.ortools/9.5.2237/google.ortools.9.5.2237.nupkg.sha512",
+    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.linux-arm64/9.5.2237/google.ortools.runtime.linux-arm64.9.5.2237.nupkg.sha512",
+    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.linux-x64/9.5.2237/google.ortools.runtime.linux-x64.9.5.2237.nupkg.sha512",
+    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.osx-arm64/9.5.2237/google.ortools.runtime.osx-arm64.9.5.2237.nupkg.sha512",
+    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.osx-x64/9.5.2237/google.ortools.runtime.osx-x64.9.5.2237.nupkg.sha512",
+    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.win-x64/9.5.2237/google.ortools.runtime.win-x64.9.5.2237.nupkg.sha512",
+    "/Users/boldizsarelek/.nuget/packages/google.protobuf/3.21.5/google.protobuf.3.21.5.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file /Users/boldizsarelek/Projects/OR-test/DynamicAssignment/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

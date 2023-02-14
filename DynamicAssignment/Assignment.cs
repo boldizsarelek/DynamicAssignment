@@ -44,13 +44,13 @@ namespace DynamicAssignment
             Assignment.assignEach = assignEach;
         }
 
-        public void RemoveApplicant(int ID)
+        public void RemoveApplicant(Applicant applicant)
         {
 
             //Removing from applications
             foreach(ApplicantReceiver application in Applications)
             {
-                if (application.applicant.ID == ID)
+                if (application.applicant == applicant)
                 {
                     Applications.Remove(application);
                 }
@@ -59,35 +59,28 @@ namespace DynamicAssignment
             //Removing from Dynamic constraints
             foreach (ApplicantDynamicConstraint dnData in dnDatas)
             {
-                if (dnData.Applicant.ID == ID)
+                if (dnData.Applicant == applicant)
                 {
                     dnDatas.Remove(dnData);
                 }
             }
 
             //Removing from Applicants
-            Applicant applicantToRemove = (from applicant in Applicants
-                                           where applicant.ID == ID
-                                           select applicant).FirstOrDefault();
-            Applicants.Remove(applicantToRemove);
+            Applicants.Remove(applicant);
 
 
         }
 
-        public void RemoveReceiver(int ID)
+        public void RemoveReceiver(Receiver receiver)
         {
             foreach (ApplicantReceiver application in Applications)
             {
-                if (application.receiver.ID == ID)
+                if (application.receiver == receiver)
                 {
                     Applications.Remove(application);
                 }
             }
-
-            Receiver receiverToRemove = (from receiver in Receivers
-                                           where receiver.ID == ID
-                                           select receiver).FirstOrDefault();
-            Receivers.Remove(receiverToRemove);
+            Receivers.Remove(receiver);
 
         }
 
