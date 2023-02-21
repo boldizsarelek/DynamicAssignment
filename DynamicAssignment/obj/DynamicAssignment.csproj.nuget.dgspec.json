@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj": {}
+    "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj": {}
   },
   "projects": {
-    "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj": {
+    "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj",
+        "projectUniqueName": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj",
         "projectName": "DynamicAssignment",
-        "projectPath": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj",
-        "packagesPath": "/Users/boldizsarelek/.nuget/packages/",
-        "outputPath": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/obj/",
+        "projectPath": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj",
+        "packagesPath": "C:\\Users\\boldizsarelek\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/boldizsarelek/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\boldizsarelek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -59,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.103/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

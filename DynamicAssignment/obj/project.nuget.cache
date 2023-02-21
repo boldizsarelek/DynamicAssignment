@@ -1,16 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "wIKioLZDEPkbkc5u2eeKNhBMMTMFO8aSFQCCkgj0wutWzQYY758R7gEqFwkyN/nosURwcWPZkqswXQEKu+OCrw==",
+  "dgSpecHash": "Db7i0Ug8IG+TxslvG8GQ/DooluOnRQx7yu1x/WjZBdwrpxBcVMi+URsLucXE0/0STOU6u9k0dOZJyiseinK5uQ==",
   "success": true,
-  "projectFilePath": "/Users/boldizsarelek/Projects/DynamicAssignment/DynamicAssignment/DynamicAssignment.csproj",
+  "projectFilePath": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj",
   "expectedPackageFiles": [
-    "/Users/boldizsarelek/.nuget/packages/google.ortools/9.5.2237/google.ortools.9.5.2237.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.linux-arm64/9.5.2237/google.ortools.runtime.linux-arm64.9.5.2237.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.linux-x64/9.5.2237/google.ortools.runtime.linux-x64.9.5.2237.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.osx-arm64/9.5.2237/google.ortools.runtime.osx-arm64.9.5.2237.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.osx-x64/9.5.2237/google.ortools.runtime.osx-x64.9.5.2237.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.ortools.runtime.win-x64/9.5.2237/google.ortools.runtime.win-x64.9.5.2237.nupkg.sha512",
-    "/Users/boldizsarelek/.nuget/packages/google.protobuf/3.21.5/google.protobuf.3.21.5.nupkg.sha512"
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools\\9.5.2237\\google.ortools.9.5.2237.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.linux-arm64\\9.5.2237\\google.ortools.runtime.linux-arm64.9.5.2237.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.linux-x64\\9.5.2237\\google.ortools.runtime.linux-x64.9.5.2237.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.osx-arm64\\9.5.2237\\google.ortools.runtime.osx-arm64.9.5.2237.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.osx-x64\\9.5.2237\\google.ortools.runtime.osx-x64.9.5.2237.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.ortools.runtime.win-x64\\9.5.2237\\google.ortools.runtime.win-x64.9.5.2237.nupkg.sha512",
+    "C:\\Users\\boldizsarelek\\.nuget\\packages\\google.protobuf\\3.21.5\\google.protobuf.3.21.5.nupkg.sha512"
   ],
   "logs": []
 }
