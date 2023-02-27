@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicAssignment" Version="1.0.0" />
+    <PackageReference Include="DynamicAssignment" Version="1.0.2" />
   </ItemGroup>
 
 </Project>

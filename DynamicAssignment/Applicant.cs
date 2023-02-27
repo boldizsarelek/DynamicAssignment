@@ -5,15 +5,13 @@ namespace DynamicAssignment
 {
     public class Applicant
     {
-        public int ID;
-        public string Name;
-        public Dictionary<int, int> Preferences; //to be deleted
+        public int ID { get; set; }
+        public string Name { get; set; }
 
-        public Applicant(int id, string name, Dictionary<int,int> preferences)
+        public Applicant(int id, string name)
         {
             ID = id;
             Name = name;
-            Preferences = preferences;
         }
     }
 }

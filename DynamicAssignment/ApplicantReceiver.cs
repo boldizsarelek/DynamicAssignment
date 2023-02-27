@@ -3,10 +3,13 @@ namespace DynamicAssignment
 {
 	public class ApplicantReceiver
 	{
-        public Applicant applicant;
-        public Receiver receiver;
-		public int applicantPreference;
-		public int receiverPreference;
+        public int ID { get; set; }
+        public Applicant applicant { get; set; }
+        public Receiver receiver { get; set; }
+        public int applicantPreference { get; set; }
+        public int receiverPreference { get; set; }
+
+		
 
         public ApplicantReceiver()
 		{

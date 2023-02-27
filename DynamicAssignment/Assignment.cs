@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Google.OrTools.LinearSolver;
 
 namespace DynamicAssignment
@@ -299,10 +300,11 @@ namespace DynamicAssignment
 
             void CreateStabilityConstraints()
             {
+                
                 //stability limitations //todo:check compatibility with Dictionary 
                 if (groupEnvyness)
                 {
-
+                    /*
                     //iterating over dynamic constraints
                     for (int constraintIndex = 0; constraintIndex < DynamicConstraints.Count; constraintIndex++)
                     {
@@ -344,16 +346,77 @@ namespace DynamicAssignment
                                 }
                             }
                         }
-                    }
-                    //with dictionary
+                    }*/
 
+
+                    //with dictionary
+                    if (applicantOptimal)
+                    {
+                        foreach (Applicant applicant in Applicants)
+                        {
+                            foreach (Receiver receiver in Receivers)
+                            {
+                                int applicantPoints = (from application in Applications
+                                                       where application.applicant.ID == applicant.ID
+                                                       && application.receiver.ID == receiver.ID
+                                                       select application.receiverPreference).FirstOrDefault();
+
+
+
+                                int applicantPreference = (from application in Applications
+                                                           where application.applicant.ID == applicant.ID
+                                                           && application.receiver.ID == receiver.ID
+                                                           select application.applicantPreference).FirstOrDefault();
+
+                                List<bool> applicantGroup = (from dc in dnDatas
+                                                                          where dc.Applicant == applicant
+                                                                          select dc.Data).ToList();
+
+
+                                //applicants in the same group with worse applications points to the receiver
+                                List<Applicant> worseApplicants = (from application in Applications
+                                                                   where application.receiverPreference < applicantPoints
+                                                                   && application.receiver.ID == receiver.ID
+                                                                   select application.applicant).ToList();
+
+                                //receivers that are prefered more by the applicant
+                                List<Receiver> betterReceivers = (from application in Applications
+                                                                  where application.applicantPreference < applicantPreference
+                                                                  && application.applicant.ID == applicant.ID
+                                                                  select application.receiver).ToList();
+
+                                foreach (Applicant worseApplicant in worseApplicants)
+                                {
+                                    Constraint constraint = solver.MakeConstraint();
+                                    constraint.SetLb(0);
+
+
+
+                                    foreach (Receiver betterReceiver in betterReceivers)
+                                    {
+                                        //constraint.SetCoefficient(variables2[applicant.ID][betterReceiver.ID], 1);
+                                        constraint.SetCoefficient(variables3[applicant][betterReceiver], 1);
+                                    }
+                                    //constraint.SetCoefficient(variables2[worseApplicant.ID][receiver.ID], -1);
+                                    constraint.SetCoefficient(variables3[worseApplicant][receiver], -1);
+                                    blockingPairs.Add(solver.MakeBoolVar($"x{applicant.ID}_{worseApplicant.ID}_{receiver.ID}"));
+                                }
+                            }
+                        }
+                    }
+                
+
+                    else
+                    {
+
+                    }
 
                 }
 
 
                 else
                 {
-
+                    /*
                     //iterating over applicants
                     for (int applicantIndex = 0; applicantIndex < Applicants.Count; applicantIndex++)
                     {
@@ -393,7 +456,7 @@ namespace DynamicAssignment
                                 
                             }
                         }
-                    }
+                    }*/
 
 
                     //with Dictionary

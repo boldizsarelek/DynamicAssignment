@@ -10,11 +10,10 @@ namespace DynamicAssignment
         public Dictionary<int,int> Preferences { get; set; } //to be deleted
         public int MinimumCapacity { get; set; }
         public int MaximumCapacity { get; set; }
-        public Receiver(int id, string name, int minimumCapacity, int maximumCapacity, Dictionary<int,int> preferences)
+        public Receiver(int id, string name, int minimumCapacity, int maximumCapacity)
         {
             this.ID = id;
             this.Name = name;
-            this.Preferences = preferences;
             this.MaximumCapacity = maximumCapacity;            
         }
     }
