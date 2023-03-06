@@ -5,28 +5,28 @@
   },
   "projects": {
     "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj": {
-      "version": "1.0.2",
+      "version": "1.1.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj",
         "projectName": "DynamicAssignment",
         "projectPath": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\DynamicAssignment.csproj",
         "packagesPath": "C:\\Users\\boldizsarelek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\boldizsarelek\\source\\repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\obj\\",
+        "outputPath": "C:\\Users\\boldizsarelek\\Source\\Repos\\boldizsarelek\\DynamicAssignment\\DynamicAssignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\boldizsarelek\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net472"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net472": {
+            "targetAlias": "net472",
             "projectReferences": {}
           }
         },
@@ -37,28 +37,12 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net472": {
+          "targetAlias": "net472",
           "dependencies": {
             "Google.OrTools": {
               "target": "Package",
               "version": "[9.5.2237, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48",
-            "net481"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"

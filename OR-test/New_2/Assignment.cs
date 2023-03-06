@@ -488,7 +488,6 @@ namespace DynamicAssignment
                                                           where ac.ApplicantData == true
                                                           select ar.Applicant).ToList();
 
-                           
                             foreach (Applicant applicant in applicants)
                             {
                                 constraint.SetCoefficient(variables[applicant][receiver], 1);

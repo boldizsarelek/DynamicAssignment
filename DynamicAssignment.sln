@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OR-test", "OR-test\OR-test.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicAssignment", "DynamicAssignment\DynamicAssignment.csproj", "{839407D7-6DD8-4426-9ADE-EAF84BC840F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormsApp-Test", "FormsApp-Test\FormsApp-Test.csproj", "{336899A4-5EBA-4A80-AD63-DCE928472141}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp_Thesis", "..\..\WindowsFormsApp_Thesis\WindowsFormsApp_Thesis.csproj", "{A9A492D9-C813-4CAC-A317-4AB17E88A8A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,9 +22,10 @@ Global
 		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{839407D7-6DD8-4426-9ADE-EAF84BC840F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{336899A4-5EBA-4A80-AD63-DCE928472141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{336899A4-5EBA-4A80-AD63-DCE928472141}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{336899A4-5EBA-4A80-AD63-DCE928472141}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A492D9-C813-4CAC-A317-4AB17E88A8A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9A492D9-C813-4CAC-A317-4AB17E88A8A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9A492D9-C813-4CAC-A317-4AB17E88A8A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A492D9-C813-4CAC-A317-4AB17E88A8A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
