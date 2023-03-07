@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5622a6a484a44e0386ae66a75dc0ada1" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="ThesisModel.Applicant" Width="1.5" PointX="1.625" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThesisModel.ApplicantConstraint" Width="1.5" PointX="6.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThesisModel.ApplicantReceiver" Width="1.5" PointX="6.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThesisModel.Constraint" Width="1.5" PointX="10.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThesisModel.Receiver" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="ThesisModel.FK_ApplicantConstraint_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="ThesisModel.FK_Application_Applicant" ManuallyRouted="false" />
+        <AssociationConnector Association="ThesisModel.FK_ApplicantConstraint_Constraint" ManuallyRouted="false" />
+        <AssociationConnector Association="ThesisModel.FK_Application_Receiver" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

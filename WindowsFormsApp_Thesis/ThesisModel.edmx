@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ThesisModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Applicant">
+          <Key>
+            <PropertyRef Name="ApplicantID" />
+          </Key>
+          <Property Name="ApplicantID" Type="int" Nullable="false" />
+          <Property Name="ApplicantName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ApplicantConstraint">
+          <Key>
+            <PropertyRef Name="ApplicantConstraintID" />
+          </Key>
+          <Property Name="ApplicantConstraintID" Type="int" Nullable="false" />
+          <Property Name="ApplicantID" Type="int" Nullable="false" />
+          <Property Name="ConstraintID" Type="int" Nullable="false" />
+          <Property Name="ApplicantData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ApplicantReceiver">
+          <Key>
+            <PropertyRef Name="ApplicantReceiverID" />
+          </Key>
+          <Property Name="ApplicantReceiverID" Type="int" Nullable="false" />
+          <Property Name="ApplicantID" Type="int" Nullable="false" />
+          <Property Name="ReceiverID" Type="int" Nullable="false" />
+          <Property Name="ApplicantPreference" Type="int" Nullable="false" />
+          <Property Name="ReceiverPoints" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Constraint">
+          <Key>
+            <PropertyRef Name="ConstraintID" />
+          </Key>
+          <Property Name="ConstraintID" Type="int" Nullable="false" />
+          <Property Name="LowerBound" Type="int" Nullable="false" />
+          <Property Name="UpperBound" Type="int" Nullable="false" />
+          <Property Name="ConstraintName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Receiver">
+          <Key>
+            <PropertyRef Name="ReceiverID" />
+          </Key>
+          <Property Name="ReceiverID" Type="int" Nullable="false" />
+          <Property Name="ReceiverName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MinimumCapacity" Type="int" Nullable="false" />
+          <Property Name="MaximumCapacity" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ApplicantConstraint_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="1" />
+          <End Role="ApplicantConstraint" Type="Self.ApplicantConstraint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="ApplicantConstraint">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantConstraint_Constraint">
+          <End Role="Constraint" Type="Self.Constraint" Multiplicity="1" />
+          <End Role="ApplicantConstraint" Type="Self.ApplicantConstraint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Constraint">
+              <PropertyRef Name="ConstraintID" />
+            </Principal>
+            <Dependent Role="ApplicantConstraint">
+              <PropertyRef Name="ConstraintID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="1" />
+          <End Role="ApplicantReceiver" Type="Self.ApplicantReceiver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="ApplicantReceiver">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Receiver">
+          <End Role="Receiver" Type="Self.Receiver" Multiplicity="1" />
+          <End Role="ApplicantReceiver" Type="Self.ApplicantReceiver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receiver">
+              <PropertyRef Name="ReceiverID" />
+            </Principal>
+            <Dependent Role="ApplicantReceiver">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ThesisModelStoreContainer">
+          <EntitySet Name="Applicant" EntityType="Self.Applicant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicantConstraint" EntityType="Self.ApplicantConstraint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ApplicantReceiver" EntityType="Self.ApplicantReceiver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Constraint" EntityType="Self.Constraint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receiver" EntityType="Self.Receiver" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ApplicantConstraint_Applicant" Association="Self.FK_ApplicantConstraint_Applicant">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="ApplicantConstraint" EntitySet="ApplicantConstraint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantConstraint_Constraint" Association="Self.FK_ApplicantConstraint_Constraint">
+            <End Role="Constraint" EntitySet="Constraint" />
+            <End Role="ApplicantConstraint" EntitySet="ApplicantConstraint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Applicant" Association="Self.FK_Application_Applicant">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="ApplicantReceiver" EntitySet="ApplicantReceiver" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Receiver" Association="Self.FK_Application_Receiver">
+            <End Role="Receiver" EntitySet="Receiver" />
+            <End Role="ApplicantReceiver" EntitySet="ApplicantReceiver" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ThesisModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Applicant">
+          <Key>
+            <PropertyRef Name="ApplicantID" />
+          </Key>
+          <Property Name="ApplicantID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicantName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicantConstraint" Relationship="Self.FK_ApplicantConstraint_Applicant" FromRole="Applicant" ToRole="ApplicantConstraint" />
+          <NavigationProperty Name="ApplicantReceiver" Relationship="Self.FK_Application_Applicant" FromRole="Applicant" ToRole="ApplicantReceiver" />
+        </EntityType>
+        <EntityType Name="ApplicantConstraint">
+          <Key>
+            <PropertyRef Name="ApplicantConstraintID" />
+          </Key>
+          <Property Name="ApplicantConstraintID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicantID" Type="Int32" Nullable="false" />
+          <Property Name="ConstraintID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicantData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Applicant" Relationship="Self.FK_ApplicantConstraint_Applicant" FromRole="ApplicantConstraint" ToRole="Applicant" />
+          <NavigationProperty Name="Constraint" Relationship="Self.FK_ApplicantConstraint_Constraint" FromRole="ApplicantConstraint" ToRole="Constraint" />
+        </EntityType>
+        <EntityType Name="ApplicantReceiver">
+          <Key>
+            <PropertyRef Name="ApplicantReceiverID" />
+          </Key>
+          <Property Name="ApplicantReceiverID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicantID" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverID" Type="Int32" Nullable="false" />
+          <Property Name="ApplicantPreference" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverPoints" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Applicant" Relationship="Self.FK_Application_Applicant" FromRole="ApplicantReceiver" ToRole="Applicant" />
+          <NavigationProperty Name="Receiver" Relationship="Self.FK_Application_Receiver" FromRole="ApplicantReceiver" ToRole="Receiver" />
+        </EntityType>
+        <EntityType Name="Constraint">
+          <Key>
+            <PropertyRef Name="ConstraintID" />
+          </Key>
+          <Property Name="ConstraintID" Type="Int32" Nullable="false" />
+          <Property Name="LowerBound" Type="Int32" Nullable="false" />
+          <Property Name="UpperBound" Type="Int32" Nullable="false" />
+          <Property Name="ConstraintName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicantConstraint" Relationship="Self.FK_ApplicantConstraint_Constraint" FromRole="Constraint" ToRole="ApplicantConstraint" />
+        </EntityType>
+        <EntityType Name="Receiver">
+          <Key>
+            <PropertyRef Name="ReceiverID" />
+          </Key>
+          <Property Name="ReceiverID" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MinimumCapacity" Type="Int32" Nullable="false" />
+          <Property Name="MaximumCapacity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ApplicantReceiver" Relationship="Self.FK_Application_Receiver" FromRole="Receiver" ToRole="ApplicantReceiver" />
+        </EntityType>
+        <Association Name="FK_ApplicantConstraint_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="1" />
+          <End Role="ApplicantConstraint" Type="Self.ApplicantConstraint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="ApplicantConstraint">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Applicant">
+          <End Role="Applicant" Type="Self.Applicant" Multiplicity="1" />
+          <End Role="ApplicantReceiver" Type="Self.ApplicantReceiver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applicant">
+              <PropertyRef Name="ApplicantID" />
+            </Principal>
+            <Dependent Role="ApplicantReceiver">
+              <PropertyRef Name="ApplicantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ApplicantConstraint_Constraint">
+          <End Role="Constraint" Type="Self.Constraint" Multiplicity="1" />
+          <End Role="ApplicantConstraint" Type="Self.ApplicantConstraint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Constraint">
+              <PropertyRef Name="ConstraintID" />
+            </Principal>
+            <Dependent Role="ApplicantConstraint">
+              <PropertyRef Name="ConstraintID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Application_Receiver">
+          <End Role="Receiver" Type="Self.Receiver" Multiplicity="1" />
+          <End Role="ApplicantReceiver" Type="Self.ApplicantReceiver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receiver">
+              <PropertyRef Name="ReceiverID" />
+            </Principal>
+            <Dependent Role="ApplicantReceiver">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ThesisEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Applicant" EntityType="Self.Applicant" />
+          <EntitySet Name="ApplicantConstraint" EntityType="Self.ApplicantConstraint" />
+          <EntitySet Name="ApplicantReceiver" EntityType="Self.ApplicantReceiver" />
+          <EntitySet Name="Constraint" EntityType="Self.Constraint" />
+          <EntitySet Name="Receiver" EntityType="Self.Receiver" />
+          <AssociationSet Name="FK_ApplicantConstraint_Applicant" Association="Self.FK_ApplicantConstraint_Applicant">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="ApplicantConstraint" EntitySet="ApplicantConstraint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Applicant" Association="Self.FK_Application_Applicant">
+            <End Role="Applicant" EntitySet="Applicant" />
+            <End Role="ApplicantReceiver" EntitySet="ApplicantReceiver" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ApplicantConstraint_Constraint" Association="Self.FK_ApplicantConstraint_Constraint">
+            <End Role="Constraint" EntitySet="Constraint" />
+            <End Role="ApplicantConstraint" EntitySet="ApplicantConstraint" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Application_Receiver" Association="Self.FK_Application_Receiver">
+            <End Role="Receiver" EntitySet="Receiver" />
+            <End Role="ApplicantReceiver" EntitySet="ApplicantReceiver" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ThesisModelStoreContainer" CdmEntityContainer="ThesisEntities1">
+          <EntitySetMapping Name="Applicant">
+            <EntityTypeMapping TypeName="ThesisModel.Applicant">
+              <MappingFragment StoreEntitySet="Applicant">
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+                <ScalarProperty Name="ApplicantName" ColumnName="ApplicantName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicantConstraint">
+            <EntityTypeMapping TypeName="ThesisModel.ApplicantConstraint">
+              <MappingFragment StoreEntitySet="ApplicantConstraint">
+                <ScalarProperty Name="ApplicantConstraintID" ColumnName="ApplicantConstraintID" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+                <ScalarProperty Name="ConstraintID" ColumnName="ConstraintID" />
+                <ScalarProperty Name="ApplicantData" ColumnName="ApplicantData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicantReceiver">
+            <EntityTypeMapping TypeName="ThesisModel.ApplicantReceiver">
+              <MappingFragment StoreEntitySet="ApplicantReceiver">
+                <ScalarProperty Name="ApplicantReceiverID" ColumnName="ApplicantReceiverID" />
+                <ScalarProperty Name="ApplicantID" ColumnName="ApplicantID" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ApplicantPreference" ColumnName="ApplicantPreference" />
+                <ScalarProperty Name="ReceiverPoints" ColumnName="ReceiverPoints" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Constraint">
+            <EntityTypeMapping TypeName="ThesisModel.Constraint">
+              <MappingFragment StoreEntitySet="Constraint">
+                <ScalarProperty Name="ConstraintID" ColumnName="ConstraintID" />
+                <ScalarProperty Name="LowerBound" ColumnName="LowerBound" />
+                <ScalarProperty Name="UpperBound" ColumnName="UpperBound" />
+                <ScalarProperty Name="ConstraintName" ColumnName="ConstraintName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receiver">
+            <EntityTypeMapping TypeName="ThesisModel.Receiver">
+              <MappingFragment StoreEntitySet="Receiver">
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+                <ScalarProperty Name="MinimumCapacity" ColumnName="MinimumCapacity" />
+                <ScalarProperty Name="MaximumCapacity" ColumnName="MaximumCapacity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -14,6 +14,7 @@ namespace DynamicAssignment
         public List<DynamicConstraint> DynamicConstraints; // Dynamic Constraint properties
         public List<ApplicantReceiver> ApplicantReceivers; // Application preferences
         public List<ApplicantDynamicConstraint> ApplicantConstraints; // Constraint Data (bool)
+        public List<ReceiverDynamicConstraint> ReceiverDynamicConstraints;
 
         //Properties for assignment
         static public string solverType; //Select OR-tools supported solver
@@ -28,10 +29,8 @@ namespace DynamicAssignment
 
         //nested dictionary, first key is the applicant, second is receiver
         private Dictionary<Applicant, Dictionary<Receiver, Variable>> variables = new Dictionary<Applicant, Dictionary<Receiver, Variable>>();
-        private List<Variable> blockingPairs = new List<Variable>();
+        private List<Variable> BlockingPairs = new List<Variable>();
 
-
-        //redesign!
         public Assignment(List<Applicant> applicants, 
             List<Receiver> receivers, 
             List<ApplicantReceiver> applicantReceivers, 
@@ -176,7 +175,7 @@ namespace DynamicAssignment
 
 
         //Run solver and receive results
-        public Solver.ResultStatus Solve()
+        public AssignmentResult Solve()
         {
             
             InvokeSolver();
@@ -184,11 +183,17 @@ namespace DynamicAssignment
             CreateConstraints();
             CreateObjective();
 
-            string lpFile = solver.ExportModelAsLpFormat(false);
 
-            Console.WriteLine(lpFile);
+            //string lpFile = solver.ExportModelAsLpFormat(false);
+            //Console.WriteLine(lpFile);
 
             Solver.ResultStatus resultStatus = solver.Solve();
+
+            string result = resultStatus.ToString();
+            Dictionary<Applicant, Receiver> pairs = new Dictionary<Applicant, Receiver>();
+            Dictionary<Applicant, Receiver> blockingPairs = new Dictionary<Applicant, Receiver>();
+            int objectiveSum = 0;
+
 
             foreach (Applicant applicant in Applicants)
             {
@@ -198,6 +203,21 @@ namespace DynamicAssignment
                     {
                         //Console.WriteLine($"Student {applicant.ApplicantName} assigned to job {receiver.ReceiverName}");
                         Console.WriteLine($"{applicant.ApplicantID}    {receiver.ReceiverID}");
+                        pairs.Add(applicant, receiver);
+                        if (applicantOptimal)
+                        {
+                            objectiveSum += (from ar in ApplicantReceivers
+                                             where ar.Applicant == applicant &&
+                                             ar.Receiver == receiver
+                                             select ar.ApplicantPreference).FirstOrDefault();
+                        }
+                        else
+                        {
+                            objectiveSum += (from ar in ApplicantReceivers
+                                             where ar.Applicant == applicant &&
+                                             ar.Receiver == receiver
+                                             select ar.ReceiverPoints).FirstOrDefault();
+                        }
                     }
                     else
                     {
@@ -205,14 +225,21 @@ namespace DynamicAssignment
                     }
                 }
             }
-            foreach (Variable variable in blockingPairs)
+            foreach (Variable variable in BlockingPairs)
             {
                 if(variable.SolutionValue() > 0.5)
                 {
                     Console.WriteLine(variable.Name());
+                   
                 }
             }
-            return resultStatus;
+
+            AssignmentResult assignmentResult = new AssignmentResult(
+                result: result,
+                pairs: pairs,
+                blockingPairs: blockingPairs,
+                objectiveSum: objectiveSum);
+            return assignmentResult;
         }
         private void InvokeSolver()
         {
@@ -326,16 +353,41 @@ namespace DynamicAssignment
                                                            && application.Receiver.ReceiverID == receiver.ReceiverID
                                                            select application.ApplicantPreference).FirstOrDefault();
 
-                                List<bool> applicantGroup = (from dc in ApplicantConstraints
-                                                                          where dc.Applicant == applicant
-                                                                          select dc.ApplicantData).ToList();
+                                Dictionary<DynamicConstraint, bool> applicantGroup = new Dictionary<DynamicConstraint, bool>();
 
-
+                                foreach (ApplicantDynamicConstraint applicantDynamicConstraint in ApplicantConstraints)
+                                {
+                                    if (applicantDynamicConstraint.Applicant == applicant)
+                                    {
+                                        applicantGroup.Add(applicantDynamicConstraint.DynamicConstraint, applicantDynamicConstraint.ApplicantData);
+                                    }
+                                }
+                                
                                 //applicants in the same group with worse applications points to the receiver
                                 List<Applicant> worseApplicants = (from application in ApplicantReceivers
                                                                    where application.ReceiverPoints < applicantPoints
-                                                                   && application.Receiver.ReceiverID == receiver.ReceiverID
+                                                                   && application.Receiver.ReceiverID == receiver.ReceiverID                                                                  
                                                                    select application.Applicant).ToList();
+
+                                List<Applicant> worseApplicantList = new List<Applicant>();
+
+                                //Only the worse applicants in the same group
+                                foreach (Applicant wa in worseApplicants)
+                                {
+                                    Dictionary<DynamicConstraint, bool> worseApplicantGroup = new Dictionary<DynamicConstraint, bool>();
+                                    foreach (ApplicantDynamicConstraint applicantDynamicConstraint in ApplicantConstraints)
+                                    {
+                                        if (applicantDynamicConstraint.Applicant == wa)
+                                        {
+                                            worseApplicantGroup.Add(applicantDynamicConstraint.DynamicConstraint, applicantDynamicConstraint.ApplicantData);
+                                        }
+                                    }
+                                    if (applicantGroup == worseApplicantGroup)
+                                    {
+                                        worseApplicantList.Add(wa);
+                                    }
+
+                                }
 
                                 //receivers that are prefered more by the applicant
                                 List<Receiver> betterReceivers = (from application in ApplicantReceivers
@@ -343,7 +395,7 @@ namespace DynamicAssignment
                                                                   && application.Applicant.ApplicantID == applicant.ApplicantID
                                                                   select application.Receiver).ToList();
 
-                                foreach (Applicant worseApplicant in worseApplicants)
+                                foreach (Applicant worseApplicant in worseApplicantList)
                                 {
                                     Constraint constraint = solver.MakeConstraint();
                                     constraint.SetLb(0);
@@ -353,14 +405,56 @@ namespace DynamicAssignment
                                         constraint.SetCoefficient(variables[applicant][betterReceiver], 1);
                                     }                                    
                                     constraint.SetCoefficient(variables[worseApplicant][receiver], -1);
-                                    blockingPairs.Add(solver.MakeBoolVar($"B{applicant.ApplicantID}_{worseApplicant.ApplicantID}_{receiver.ReceiverID}"));
+                                    BlockingPairs.Add(solver.MakeBoolVar($"B{applicant.ApplicantID}_{worseApplicant.ApplicantID}_{receiver.ReceiverID}"));
                                 }
                             }
                         }
                     }
                     else
                     {
+                        foreach (Receiver receiver in Receivers)
+                        {
+                            foreach (Applicant applicant in Applicants)
+                            {
 
+                                int applicantPreference = (from application in ApplicantReceivers
+                                                           where application.Applicant.ApplicantID == applicant.ApplicantID
+                                                           && application.Receiver.ReceiverID == receiver.ReceiverID
+                                                           select application.ApplicantPreference).FirstOrDefault();
+
+
+                                int applicantPoints = (from application in ApplicantReceivers
+                                                       where application.Applicant.ApplicantID == applicant.ApplicantID
+                                                       && application.Receiver.ReceiverID == receiver.ReceiverID
+                                                       select application.ReceiverPoints).FirstOrDefault();
+
+
+
+                                //receivers that are
+                                List<Receiver> worseReceivers = (from application in ApplicantReceivers
+                                                                 where application.ApplicantPreference > applicantPreference
+                                                                 && application.Applicant.ApplicantID == applicant.ApplicantID
+                                                                 select application.Receiver).ToList();
+
+                                //applicants, that are prefered more by the receiver
+                                List<Applicant> betterApplicants = (from application in ApplicantReceivers
+                                                                    where application.ReceiverPoints > applicantPreference
+                                                                    && application.Receiver.ReceiverID == receiver.ReceiverID
+                                                                    select application.Applicant).ToList();
+
+                                foreach (Receiver worseReceiver in worseReceivers)
+                                {
+                                    Constraint constraint = solver.MakeConstraint();
+                                    constraint.SetLb(0);
+
+                                    foreach (Applicant betterApplicant in betterApplicants)
+                                    {
+                                        constraint.SetCoefficient(variables[betterApplicant][receiver], 1);
+                                    }
+                                    constraint.SetCoefficient(variables[applicant][worseReceiver], -1);
+                                }
+                            }
+                        }
                     }
                 }
                 else
@@ -397,7 +491,7 @@ namespace DynamicAssignment
 
                                 foreach (Applicant worseApplicant in worseApplicants)
                                 {
-                                    Google.OrTools.LinearSolver.Constraint constraint = solver.MakeConstraint();
+                                    Constraint constraint = solver.MakeConstraint();
                                     constraint.SetLb(0);
 
 
@@ -408,8 +502,8 @@ namespace DynamicAssignment
                                         
                                     }                                    
                                     constraint.SetCoefficient(variables[worseApplicant][receiver], -1);
-                                    blockingPairs.Add(solver.MakeBoolVar($"B{applicant.ApplicantID}_{worseApplicant.ApplicantID}_{receiver.ReceiverID}"));
-                                    constraint.SetCoefficient(blockingPairs[blockingPairs.Count - 1], 1);
+                                    BlockingPairs.Add(solver.MakeBoolVar($"B{applicant.ApplicantID}_{worseApplicant.ApplicantID}_{receiver.ReceiverID}"));
+                                    constraint.SetCoefficient(BlockingPairs[BlockingPairs.Count - 1], 1);
                                 }
                             }
                         }
@@ -474,8 +568,15 @@ namespace DynamicAssignment
                     {
                         foreach (Receiver receiver in Receivers)
                         {
-                            int maximum = dynamicConstraint.UpperBound;
-                            int minimum = dynamicConstraint.LowerBound;
+                            int minimum = (from rdc in ReceiverDynamicConstraints
+                                           where rdc.Receiver==receiver &&
+                                           rdc.DynamicConstraint == dynamicConstraint
+                                           select rdc.LowerBound).FirstOrDefault();
+                            int maximum = (from rdc in ReceiverDynamicConstraints
+                                           where rdc.Receiver == receiver &&
+                                           rdc.DynamicConstraint == dynamicConstraint
+                                           select rdc.UpperBound).FirstOrDefault();
+
                             Constraint constraint = solver.MakeConstraint(minimum, maximum, $"{dynamicConstraint.ConstraintName}_{receiver.ReceiverID}");
 
                             List<ApplicantDynamicConstraint> applicantConstraints = (from ac in ApplicantConstraints
@@ -487,8 +588,7 @@ namespace DynamicAssignment
                                                           join ac in applicantConstraints on ar.Applicant equals ac.Applicant
                                                           where ac.ApplicantData == true
                                                           select ar.Applicant).ToList();
-
-                           
+                            
                             foreach (Applicant applicant in applicants)
                             {
                                 constraint.SetCoefficient(variables[applicant][receiver], 1);
@@ -511,7 +611,7 @@ namespace DynamicAssignment
                     objective.SetCoefficient(variables[application.Applicant][application.Receiver], preference);
                 }
 
-                foreach (var blockgingPair in blockingPairs)
+                foreach (var blockgingPair in BlockingPairs)
                 {
                     objective.SetCoefficient(blockgingPair, 100);
                 }
@@ -528,7 +628,7 @@ namespace DynamicAssignment
                     objective.SetCoefficient(variables[application.Applicant][application.Receiver], points);
                 }
 
-                foreach (var blockgingPair in blockingPairs)
+                foreach (var blockgingPair in BlockingPairs)
                 {
                     objective.SetCoefficient(blockgingPair, -100);
                 }
