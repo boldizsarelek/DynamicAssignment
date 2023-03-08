@@ -8,9 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp_Thesis
+namespace Formsapp_Thesis
 {
-
     public partial class ResultPanel : UserControl
     {
         private class Result
@@ -34,8 +33,9 @@ namespace WindowsFormsApp_Thesis
                 result.ReceiverName = pair.Value.ReceiverName;
                 results.Add(result);
             }
-            
+
             dataGridView1.DataSource = results;
+            dataGridView1.Dock = DockStyle.Fill;
 
 
         }

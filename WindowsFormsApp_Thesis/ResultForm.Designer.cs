@@ -53,7 +53,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(200, 40);
+            this.label1.Size = new System.Drawing.Size(125, 25);
             this.label1.TabIndex = 1;
             this.label1.Text = "Párosítások";
             // 
@@ -93,9 +93,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(257, 600);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 25);
+            this.label5.Size = new System.Drawing.Size(24, 25);
             this.label5.TabIndex = 5;
-            this.label5.Text = "label5";
+            this.label5.Text = "0";
             // 
             // label6
             // 
@@ -103,9 +103,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(257, 640);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(70, 25);
+            this.label6.Size = new System.Drawing.Size(24, 25);
             this.label6.TabIndex = 6;
-            this.label6.Text = "label6";
+            this.label6.Text = "0";
             // 
             // label7
             // 
@@ -113,9 +113,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(257, 679);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(70, 25);
+            this.label7.Size = new System.Drawing.Size(24, 25);
             this.label7.TabIndex = 7;
-            this.label7.Text = "label7";
+            this.label7.Text = "0";
             // 
             // ResultForm
             // 

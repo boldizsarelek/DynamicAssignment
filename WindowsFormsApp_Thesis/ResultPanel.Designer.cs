@@ -56,11 +56,12 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 82;
             this.dataGridView1.RowTemplate.Height = 33;
-            this.dataGridView1.Size = new System.Drawing.Size(1362, 462);
+            this.dataGridView1.Size = new System.Drawing.Size(1248, 444);
             this.dataGridView1.TabIndex = 0;
             // 
             // StudentID
             // 
+            this.StudentID.DataPropertyName = "ApplicantID";
             this.StudentID.HeaderText = "Hallgató azonosító";
             this.StudentID.MinimumWidth = 10;
             this.StudentID.Name = "StudentID";
@@ -69,6 +70,7 @@
             // 
             // ApplicantName
             // 
+            this.ApplicantName.DataPropertyName = "ApplicantName";
             this.ApplicantName.HeaderText = "Hallgató neve";
             this.ApplicantName.MinimumWidth = 10;
             this.ApplicantName.Name = "ApplicantName";
@@ -77,6 +79,7 @@
             // 
             // ReceiverID
             // 
+            this.ReceiverID.DataPropertyName = "ReceiverID";
             this.ReceiverID.HeaderText = "Munkahely azonosítója";
             this.ReceiverID.MinimumWidth = 10;
             this.ReceiverID.Name = "ReceiverID";
@@ -85,6 +88,7 @@
             // 
             // RecxeiverName
             // 
+            this.RecxeiverName.DataPropertyName = "ReceiverName";
             this.RecxeiverName.HeaderText = "Munkahely neve";
             this.RecxeiverName.MinimumWidth = 10;
             this.RecxeiverName.Name = "RecxeiverName";
@@ -101,11 +105,11 @@
             // 
             // ResultPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView1);
             this.Name = "ResultPanel";
-            this.Size = new System.Drawing.Size(1362, 463);
+            this.Size = new System.Drawing.Size(1248, 444);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 

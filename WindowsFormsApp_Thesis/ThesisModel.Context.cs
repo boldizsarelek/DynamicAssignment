@@ -30,5 +30,6 @@ namespace WindowsFormsApp_Thesis
         public virtual DbSet<ApplicantReceiver> ApplicantReceiver { get; set; }
         public virtual DbSet<Constraint> Constraint { get; set; }
         public virtual DbSet<Receiver> Receiver { get; set; }
+        public virtual DbSet<ReceiverConstraint> ReceiverConstraint { get; set; }
     }
 }

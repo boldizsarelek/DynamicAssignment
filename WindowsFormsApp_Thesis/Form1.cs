@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Google.OrTools;
 
 namespace WindowsFormsApp_Thesis
 {
@@ -15,6 +16,7 @@ namespace WindowsFormsApp_Thesis
     {
         ThesisEntities1 context = new ThesisEntities1();
         Assignment assignment;
+         
         public Form1()
         {
             InitializeComponent();     
@@ -79,10 +81,26 @@ namespace WindowsFormsApp_Thesis
             {
                 DynamicAssignment.DynamicConstraint constraint = new DynamicAssignment.DynamicConstraint(
                     constraintID: constraintTmp[i].ConstraintID,
-                    lowerBound: constraintTmp[i].LowerBound,
-                    upperBound: constraintTmp[i].UpperBound,
                     constraintName: constraintTmp[i].ConstraintName);
                 constraints.Add(constraint);
+            }
+
+            var receiverConstrainttmp = (from p in context.ReceiverConstraint
+                                         select p).ToList();
+            List<ReceiverDynamicConstraint> receiverDynamicConstraints = new List<ReceiverDynamicConstraint>();
+            for (int i = 0; i < receiverConstrainttmp.Count; i++)
+            {
+                DynamicAssignment.ReceiverDynamicConstraint rc = new DynamicAssignment.ReceiverDynamicConstraint(
+                    receiverConstraintID: receiverConstrainttmp[i].ReceiverConstraintID,
+                    receiver: (from r in receivers
+                               where r.ReceiverID == receiverConstrainttmp[i].ReceiverID
+                               select r).FirstOrDefault(),
+                    dynamicConstraint: (from dc in constraints
+                                        where dc.ConstraintID == receiverConstrainttmp[i].ConstraintID
+                                        select dc).FirstOrDefault(),
+                    lowerBound: receiverConstrainttmp[i].LowerBound,
+                    upperBound: receiverConstrainttmp[i].UpperBound);
+                receiverDynamicConstraints.Add(rc);
             }
 
             var applicantConstraintTmp = (from p in context.ApplicantConstraint
@@ -115,14 +133,18 @@ namespace WindowsFormsApp_Thesis
                 applicantOptimal: applicantOptimal,
                 groupEnvyness: groupEnvyness,
                 assignEach: assignAll
-                );        
+                );
+            assignment.ReceiverDynamicConstraints = receiverDynamicConstraints;
         }
 
         private void button1_Click(object sender, EventArgs e)
         { 
             Solve();
-            ResultForm rf = new ResultForm();
+            AssignmentResult result = assignment.Solve();
+
+            ResultForm rf = new ResultForm(result);
             rf.ShowDialog();
+            
         }
     }
 }

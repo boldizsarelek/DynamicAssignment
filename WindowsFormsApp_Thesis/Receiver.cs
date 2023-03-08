@@ -18,6 +18,7 @@ namespace WindowsFormsApp_Thesis
         public Receiver()
         {
             this.ApplicantReceiver = new HashSet<ApplicantReceiver>();
+            this.ReceiverConstraint = new HashSet<ReceiverConstraint>();
         }
     
         public int ReceiverID { get; set; }
@@ -27,5 +28,7 @@ namespace WindowsFormsApp_Thesis
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ApplicantReceiver> ApplicantReceiver { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReceiverConstraint> ReceiverConstraint { get; set; }
     }
 }
