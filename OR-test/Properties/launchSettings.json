@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "OR-test": {
-      "commandName": "Project",
-      "hotReloadEnabled": false
-    }
-  }
-}
