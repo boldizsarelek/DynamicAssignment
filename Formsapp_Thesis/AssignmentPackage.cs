@@ -8,14 +8,19 @@ using System.Threading.Tasks;
 
 namespace Formsapp_Thesis
 {
-    public class DynamicAssignment
+    public class AssignmentPackage
     {
         static public Assignment Assignment;
         static public AssignmentResult AssignmentResult;
-        public DynamicAssignment()
+        public void Solve()
         {
-            readLocalData();
+            AssignmentResult =  Assignment.Solve();           
         }
+        public AssignmentPackage()
+        {
+            readLocalData();            
+        }
+        
         private void readLocalData()
         {
             List<Applicant> applicants = new List<Applicant>();
@@ -150,7 +155,8 @@ namespace Formsapp_Thesis
                 applicantReceivers: applicantReceivers,
                 constraints: constraints,
                 applicantConstraints: applicantConstraints,
-                groupEnvyness: false);
+                solverType2: Google.OrTools.LinearSolver.Solver.OptimizationProblemType.GLOP_LINEAR_PROGRAMMING,
+                groupEnvyness: false) ;
             Assignment.ReceiverDynamicConstraints = receiverConstraints;
 
             List<ExpandoObject> dynamicApplicants = new List<ExpandoObject>();

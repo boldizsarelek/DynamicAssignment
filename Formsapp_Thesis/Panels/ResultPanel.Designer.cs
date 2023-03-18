@@ -40,10 +40,13 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ApplicantID, ReceiverID, ApplicantName, ReceiverName, ApplicantPreference, ReceiverPoints });
             dataGridView1.Location = new Point(17, 24);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(900, 419);
@@ -51,7 +54,7 @@
             // 
             // ApplicantID
             // 
-            ApplicantID.DataPropertyName = "ApplicantID";
+            ApplicantID.DataPropertyName = "Applicant.ApplicantID";
             ApplicantID.HeaderText = "Hallgató azonosítója";
             ApplicantID.MinimumWidth = 6;
             ApplicantID.Name = "ApplicantID";
@@ -60,7 +63,7 @@
             // 
             // ReceiverID
             // 
-            ReceiverID.DataPropertyName = "ReceiverID";
+            ReceiverID.DataPropertyName = "Receiver.ReceiverID";
             ReceiverID.HeaderText = "Munkahely azonosítója";
             ReceiverID.MinimumWidth = 6;
             ReceiverID.Name = "ReceiverID";
@@ -69,7 +72,7 @@
             // 
             // ApplicantName
             // 
-            ApplicantName.DataPropertyName = "ApplicantName";
+            ApplicantName.DataPropertyName = "Applicant.ApplicantName";
             ApplicantName.HeaderText = "Hallgató neve";
             ApplicantName.MinimumWidth = 6;
             ApplicantName.Name = "ApplicantName";
@@ -78,7 +81,7 @@
             // 
             // ReceiverName
             // 
-            ReceiverName.DataPropertyName = "ReceiverName";
+            ReceiverName.DataPropertyName = "Receiver.ReceiverName";
             ReceiverName.HeaderText = "Munkahely neve";
             ReceiverName.MinimumWidth = 6;
             ReceiverName.Name = "ReceiverName";

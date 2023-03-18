@@ -13,14 +13,14 @@ namespace Formsapp_Thesis
 {
     public partial class ResultForm : Form
     {
-        public ResultForm(AssignmentResult result)
+        public ResultForm()
         {
             InitializeComponent();
-            ResultPanel rp = new ResultPanel(result.Pairs);
+            ResultPanel rp = new ResultPanel();
             panel1.Controls.Add(rp);
-            statusLabel.Text = result.Result;
-            objectiveSumLabel.Text = result.ObjectiveSum.ToString();
-            blockingPairsLabel.Text = result.BlockingPairs.Count.ToString();
+            statusLabel.Text = AssignmentPackage.AssignmentResult.Result;
+            objectiveSumLabel.Text = AssignmentPackage.AssignmentResult.ObjectiveSum.ToString();
+            blockingPairsLabel.Text = AssignmentPackage.AssignmentResult.BlockingPairs.Count.ToString();
 
         }
     }

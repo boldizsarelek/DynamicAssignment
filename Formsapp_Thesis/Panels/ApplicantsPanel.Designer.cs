@@ -36,6 +36,7 @@
             listBox1 = new ListBox();
             dataGridView1 = new DataGridView();
             ApplicantPreference = new DataGridViewTextBoxColumn();
+            ReceiverID = new DataGridViewTextBoxColumn();
             ReceiverName = new DataGridViewTextBoxColumn();
             ReceiverPoints = new DataGridViewTextBoxColumn();
             moveUpButton = new Button();
@@ -43,7 +44,7 @@
             button7 = new Button();
             button8 = new Button();
             ConstraintName = new DataGridViewTextBoxColumn();
-            ApplicantData = new DataGridViewTextBoxColumn();
+            ApplicantData = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -62,7 +63,7 @@
             dataGridView2.RowHeadersWidth = 72;
             dataGridView2.RowTemplate.Height = 37;
             dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView2.Size = new Size(355, 444);
+            dataGridView2.Size = new Size(272, 444);
             dataGridView2.TabIndex = 1;
             // 
             // button1
@@ -71,7 +72,7 @@
             button1.Location = new Point(354, 495);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
-            button1.Size = new Size(356, 62);
+            button1.Size = new Size(273, 62);
             button1.TabIndex = 2;
             button1.Text = "Új tulajdonság felvétele";
             button1.UseVisualStyleBackColor = true;
@@ -81,7 +82,7 @@
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button2.Location = new Point(355, 631);
             button2.Name = "button2";
-            button2.Size = new Size(355, 62);
+            button2.Size = new Size(272, 62);
             button2.TabIndex = 3;
             button2.Text = "Tulajdonság törlése";
             button2.UseVisualStyleBackColor = true;
@@ -122,13 +123,14 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ApplicantPreference, ReceiverName, ReceiverPoints });
-            dataGridView1.Location = new Point(715, 38);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ApplicantPreference, ReceiverID, ReceiverName, ReceiverPoints });
+            dataGridView1.Location = new Point(632, 38);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(431, 444);
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.Size = new Size(514, 444);
             dataGridView1.TabIndex = 7;
             // 
             // ApplicantPreference
@@ -139,6 +141,15 @@
             ApplicantPreference.Name = "ApplicantPreference";
             ApplicantPreference.ReadOnly = true;
             ApplicantPreference.Width = 125;
+            // 
+            // ReceiverID
+            // 
+            ReceiverID.DataPropertyName = "ReceiverID";
+            ReceiverID.HeaderText = "Munkahely azonosító";
+            ReceiverID.MinimumWidth = 6;
+            ReceiverID.Name = "ReceiverID";
+            ReceiverID.ReadOnly = true;
+            ReceiverID.Width = 125;
             // 
             // ReceiverName
             // 
@@ -161,24 +172,24 @@
             // moveUpButton
             // 
             moveUpButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            moveUpButton.Location = new Point(715, 493);
+            moveUpButton.Location = new Point(632, 495);
             moveUpButton.Name = "moveUpButton";
-            moveUpButton.Size = new Size(219, 62);
+            moveUpButton.Size = new Size(241, 62);
             moveUpButton.TabIndex = 8;
             moveUpButton.Text = "↑";
             moveUpButton.UseVisualStyleBackColor = true;
-            moveUpButton.Click += button5_Click;
+            moveUpButton.Click += moveUpButton_Click;
             // 
             // moveDownButton
             // 
             moveDownButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            moveDownButton.Location = new Point(933, 493);
+            moveDownButton.Location = new Point(879, 495);
             moveDownButton.Name = "moveDownButton";
-            moveDownButton.Size = new Size(213, 62);
+            moveDownButton.Size = new Size(267, 62);
             moveDownButton.TabIndex = 9;
             moveDownButton.Text = "↓";
             moveDownButton.UseVisualStyleBackColor = true;
-            moveDownButton.Click += button6_Click;
+            moveDownButton.Click += moveDownButton_Click;
             // 
             // button7
             // 
@@ -195,7 +206,7 @@
             button8.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             button8.Location = new Point(355, 562);
             button8.Name = "button8";
-            button8.Size = new Size(355, 62);
+            button8.Size = new Size(272, 62);
             button8.TabIndex = 11;
             button8.Text = "Tulajdonság szerkesztése";
             button8.UseVisualStyleBackColor = true;
@@ -216,6 +227,8 @@
             ApplicantData.MinimumWidth = 6;
             ApplicantData.Name = "ApplicantData";
             ApplicantData.ReadOnly = true;
+            ApplicantData.Resizable = DataGridViewTriState.True;
+            ApplicantData.SortMode = DataGridViewColumnSortMode.Automatic;
             ApplicantData.Width = 125;
             // 
             // ApplicantsPanel
@@ -254,9 +267,10 @@
         private Button button7;
         private Button button8;
         private DataGridViewTextBoxColumn ApplicantPreference;
+        private DataGridViewTextBoxColumn ReceiverID;
         private DataGridViewTextBoxColumn ReceiverName;
         private DataGridViewTextBoxColumn ReceiverPoints;
         private DataGridViewTextBoxColumn ConstraintName;
-        private DataGridViewTextBoxColumn ApplicantData;
+        private DataGridViewCheckBoxColumn ApplicantData;
     }
 }

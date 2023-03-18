@@ -18,15 +18,14 @@ namespace DynamicAssignment
         public List<ReceiverDynamicConstraint> ReceiverDynamicConstraints;
 
         //Properties for assignment
-        static public string solverType; //Select OR-tools supported solver
-        static public bool applicantOptimal;
-        static public bool groupEnvyness;
-        static public bool assignEach;
+        public string SolverType; //Select OR-tools supported solver
+        public bool ApplicantOptimal;
+        public bool GroupEnvyness;
+        public bool AssignEach;
         
-
         //OR-Tools classes
         private Solver solver;
-        
+        private Solver.OptimizationProblemType solverType2;
 
         //nested dictionary, first key is the applicant, second is receiver
         private Dictionary<Applicant, Dictionary<Receiver, Variable>> variables = new Dictionary<Applicant, Dictionary<Receiver, Variable>>();
@@ -35,7 +34,6 @@ namespace DynamicAssignment
         public Assignment(List<Applicant> applicants, 
             List<Receiver> receivers, 
             List<ApplicantReceiver> applicantReceivers,
-            Solver.OptimizationProblemType solverType2,
             List<DynamicConstraint> constraints = null, 
             List<ApplicantDynamicConstraint> applicantConstraints = null, 
             string solverType = "SCIP",
@@ -49,10 +47,33 @@ namespace DynamicAssignment
             DynamicConstraints = constraints;
             ApplicantConstraints = applicantConstraints;
 
-            Assignment.solverType = solverType;
-            Assignment.applicantOptimal = applicantOptimal;
-            Assignment.groupEnvyness = groupEnvyness;
-            Assignment.assignEach = assignEach;
+            SolverType = solverType;
+            switch (solverType)
+            {
+                case "SCIP": 
+                    solverType2 = Solver.OptimizationProblemType.SCIP_MIXED_INTEGER_PROGRAMMING; 
+                    break;
+                case "GLOP": 
+                    solverType2 = Solver.OptimizationProblemType.GLOP_LINEAR_PROGRAMMING; 
+                    break;
+                case "CLP": 
+                    solverType2 = Solver.OptimizationProblemType.CLP_LINEAR_PROGRAMMING; 
+                    break;
+                case "CBC": 
+                    solverType2 = Solver.OptimizationProblemType.CBC_MIXED_INTEGER_PROGRAMMING; 
+                    break;
+                case "GLPKLP": 
+                    solverType2 = Solver.OptimizationProblemType.GLPK_LINEAR_PROGRAMMING; 
+                    break;
+                case "GLPKMIP": 
+                    solverType2 = Solver.OptimizationProblemType.GLPK_MIXED_INTEGER_PROGRAMMING; 
+                    break;
+                default:
+                    break;
+            }
+            ApplicantOptimal = applicantOptimal;
+            GroupEnvyness = groupEnvyness;
+            AssignEach = assignEach;
             validateData();
             
         }
@@ -213,12 +234,12 @@ namespace DynamicAssignment
 
         }
 
-        public ReceiverDynamicConstraint GetReceiverDynamicConstraintByReceiverID(int receiverID)
+        public List<ReceiverDynamicConstraint> GetReceiverDynamicConstraintsByReceiverID(int receiverID)
         {
-            ReceiverDynamicConstraint receiverDynamicConstraint = (from rdc in ReceiverDynamicConstraints
+            List<ReceiverDynamicConstraint> receiverDynamicConstraints = (from rdc in ReceiverDynamicConstraints
                                              where rdc.Receiver.ReceiverID == receiverID
-                                             select rdc).FirstOrDefault();
-            return receiverDynamicConstraint;
+                                             select rdc).ToList();
+            return receiverDynamicConstraints;
         }
 
         public List<ApplicantReceiver> GetApplicantReceiversByApplicantID(int applicantID)
@@ -229,7 +250,7 @@ namespace DynamicAssignment
             return applicantReceivers;
         }
 
-        public List<ApplicantReceiver> GetApplicantReceiversByReceiver(int receiverID)
+        public List<ApplicantReceiver> GetApplicantReceiversByReceiverID(int receiverID)
         {
             List<ApplicantReceiver> applicantReceivers = (from ar in ApplicantReceivers
                                                    where ar.Receiver.ReceiverID == receiverID
@@ -237,12 +258,12 @@ namespace DynamicAssignment
             return applicantReceivers;
         }
 
-        public ApplicantDynamicConstraint GetApplicantDynamicConstraintByApplicantID(int applicantID)
+        public List<ApplicantDynamicConstraint> GetApplicantDynamicConstraintsByApplicantID(int applicantID)
         {
-            ApplicantDynamicConstraint applicantDynamicConstraint = (from adc in ApplicantConstraints
+            List<ApplicantDynamicConstraint> applicantDynamicConstraints = (from adc in ApplicantConstraints
                                                                      where adc.Applicant.ApplicantID == applicantID
-                                                                     select adc).FirstOrDefault();
-            return applicantDynamicConstraint;
+                                                                     select adc).ToList();
+            return applicantDynamicConstraints;
         }
 
         //Run solver and receive results
@@ -285,7 +306,7 @@ namespace DynamicAssignment
 
                         pairs.Add(pair);
                                                
-                        if (applicantOptimal)
+                        if (ApplicantOptimal)
                         {
                             objectiveSum += (from ar in ApplicantReceivers
                                              where ar.Applicant == applicant &&
@@ -339,7 +360,7 @@ namespace DynamicAssignment
         {
             //invoking solver
 
-            solver = Solver.CreateSolver("SCIP");
+            solver = new Solver("Solver", solverType2);
             
             if (solver is null)
             {
@@ -388,7 +409,7 @@ namespace DynamicAssignment
             void CreateApplicantBoundaries()
             {         
                 //Applicant's boundaires (1 applicant can be assigned to maximum one place)
-                if (assignEach)
+                if (AssignEach)
                 {
                     foreach (Applicant applicant in Applicants)
                     {
@@ -431,9 +452,9 @@ namespace DynamicAssignment
 
             void CreateStabilityConstraints()
             {             
-                if (groupEnvyness)
+                if (GroupEnvyness)
                 {       
-                    if (applicantOptimal)
+                    if (ApplicantOptimal)
                     {
                         foreach (Applicant applicant in Applicants)
                         {
@@ -555,7 +576,7 @@ namespace DynamicAssignment
                 }
                 else
                 {                   
-                    if (applicantOptimal)
+                    if (ApplicantOptimal)
                     {
                         foreach (Applicant applicant in Applicants)
                         {
@@ -694,11 +715,10 @@ namespace DynamicAssignment
                 }
             }
         
-
         private void CreateObjective()
         {
             Objective objective = solver.Objective();
-            if (applicantOptimal)
+            if (ApplicantOptimal)
             { 
                foreach (ApplicantReceiver application in ApplicantReceivers)
                 {

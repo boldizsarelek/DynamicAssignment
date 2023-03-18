@@ -6,14 +6,14 @@ using System.Windows.Forms;
 
 namespace Formsapp_Thesis
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        Assignment assignment;
-        AssignmentResult assignmentResult;
-        public Form1()
+        AssignmentPackage m;
+        List<string> strings = new List<string>();
+        public MainForm()
         {
             InitializeComponent();
-            DynamicAssignment m = new DynamicAssignment();
+            m = new AssignmentPackage();
             ApplicantsPanel ap = new ApplicantsPanel();
             panel1.Controls.Add(ap);
             applicantRadio.CheckedChanged += Groupbox1_CheckChange;
@@ -21,8 +21,6 @@ namespace Formsapp_Thesis
             comboBox1.DataSource = Enum.GetValues(typeof(Solver.OptimizationProblemType))
                                      .Cast<Solver.OptimizationProblemType>()
                                      .ToList();
-
-
         }
 
         private void Groupbox1_CheckChange(object? sender, EventArgs e)
@@ -54,8 +52,8 @@ namespace Formsapp_Thesis
             Assignment.groupEnvyness = groupEnvyness;
 
 
-            DynamicAssignment.AssignmentResult = DynamicAssignment.Assignment.Solve();
-            ResultForm rf = new ResultForm(assignmentResult);
+            m.Solve();
+            ResultForm rf = new ResultForm();
             rf.ShowDialog();
 
         }

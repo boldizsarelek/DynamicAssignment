@@ -1,6 +1,6 @@
 ﻿namespace Formsapp_Thesis
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -207,6 +207,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox5.Controls.Add(comboBox1);
             groupBox5.Location = new Point(710, 703);
             groupBox5.Name = "groupBox5";
@@ -223,7 +224,7 @@
             comboBox1.Size = new Size(195, 28);
             comboBox1.TabIndex = 0;
             // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -235,7 +236,7 @@
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Form1";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

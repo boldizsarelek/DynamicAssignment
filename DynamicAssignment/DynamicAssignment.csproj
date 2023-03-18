@@ -4,10 +4,26 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.1.7</Version>
+    <Authors>boldizsarelek</Authors>
+    <Description>Dynamic Assignment system for My BSc thesis.</Description>
+    <PackageProjectUrl>https://github.com/boldizsarelek/DynamicAssignment</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/boldizsarelek/DynamicAssignment</RepositoryUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <FileVersion />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Google.OrTools" Version="9.6.2534" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

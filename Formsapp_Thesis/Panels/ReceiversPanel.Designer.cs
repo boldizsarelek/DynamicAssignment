@@ -41,9 +41,9 @@
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
             dataGridView3 = new DataGridView();
+            ApplicantID = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             ReceiverPoints = new DataGridViewTextBoxColumn();
-            ApplicantPreference = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
@@ -181,7 +181,7 @@
             dataGridView3.AllowUserToDeleteRows = false;
             dataGridView3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView3.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn3, ReceiverPoints, ApplicantPreference });
+            dataGridView3.Columns.AddRange(new DataGridViewColumn[] { ApplicantID, dataGridViewTextBoxColumn3, ReceiverPoints });
             dataGridView3.Location = new Point(1007, 3);
             dataGridView3.Name = "dataGridView3";
             dataGridView3.ReadOnly = true;
@@ -189,6 +189,15 @@
             dataGridView3.RowTemplate.Height = 29;
             dataGridView3.Size = new Size(529, 479);
             dataGridView3.TabIndex = 8;
+            // 
+            // ApplicantID
+            // 
+            ApplicantID.DataPropertyName = "ApplicantID";
+            ApplicantID.HeaderText = "Hallgató azonosítója";
+            ApplicantID.MinimumWidth = 6;
+            ApplicantID.Name = "ApplicantID";
+            ApplicantID.ReadOnly = true;
+            ApplicantID.Width = 125;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -207,15 +216,6 @@
             ReceiverPoints.Name = "ReceiverPoints";
             ReceiverPoints.ReadOnly = true;
             ReceiverPoints.Width = 125;
-            // 
-            // ApplicantPreference
-            // 
-            ApplicantPreference.DataPropertyName = "ApplicantPreference";
-            ApplicantPreference.HeaderText = "Hallgató preferenciája";
-            ApplicantPreference.MinimumWidth = 6;
-            ApplicantPreference.Name = "ApplicantPreference";
-            ApplicantPreference.ReadOnly = true;
-            ApplicantPreference.Width = 125;
             // 
             // ReceiversPanel
             // 
@@ -249,8 +249,8 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridView dataGridView3;
+        private DataGridViewTextBoxColumn ApplicantID;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn ReceiverPoints;
-        private DataGridViewTextBoxColumn ApplicantPreference;
     }
 }
