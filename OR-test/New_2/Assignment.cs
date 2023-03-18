@@ -217,7 +217,7 @@ namespace DynamicAssignment
         private void InvokeSolver()
         {
             //invoking solver
-            solver = Solver.CreateSolver(solverType);
+            solver = new Solver("SCIP", Solver.OptimizationProblemType.GUROBI_LINEAR_PROGRAMMING);
             if (solver is null)
             {
                 return;

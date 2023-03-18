@@ -77,8 +77,5 @@
     <None Include="sat\sat_parameters.proto" />
     <None Include="util\optional_boolean.proto" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="orLogo.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

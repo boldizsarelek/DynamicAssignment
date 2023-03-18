@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            constraintRadio = new RadioButton();
-            receiverConstraintRadio = new RadioButton();
             receiverRadio = new RadioButton();
             applicantRadio = new RadioButton();
             groupBox2 = new GroupBox();
@@ -44,46 +42,25 @@
             noGroupEnvynessRadio = new RadioButton();
             pairButton = new Button();
             panel1 = new Panel();
+            groupBox5 = new GroupBox();
+            comboBox1 = new ComboBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(constraintRadio);
-            groupBox1.Controls.Add(receiverConstraintRadio);
             groupBox1.Controls.Add(receiverRadio);
             groupBox1.Controls.Add(applicantRadio);
             groupBox1.Location = new Point(6, 4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(602, 68);
+            groupBox1.Size = new Size(954, 68);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Lista";
-            // 
-            // constraintRadio
-            // 
-            constraintRadio.AutoSize = true;
-            constraintRadio.Location = new Point(237, 26);
-            constraintRadio.Name = "constraintRadio";
-            constraintRadio.Size = new Size(186, 24);
-            constraintRadio.TabIndex = 3;
-            constraintRadio.TabStop = true;
-            constraintRadio.Text = "Hallgató tulajdonságok";
-            constraintRadio.UseVisualStyleBackColor = true;
-            // 
-            // receiverConstraintRadio
-            // 
-            receiverConstraintRadio.AutoSize = true;
-            receiverConstraintRadio.Location = new Point(429, 26);
-            receiverConstraintRadio.Name = "receiverConstraintRadio";
-            receiverConstraintRadio.Size = new Size(159, 24);
-            receiverConstraintRadio.TabIndex = 2;
-            receiverConstraintRadio.TabStop = true;
-            receiverConstraintRadio.Text = "Munkahely korlátok";
-            receiverConstraintRadio.UseVisualStyleBackColor = true;
             // 
             // receiverRadio
             // 
@@ -92,13 +69,13 @@
             receiverRadio.Name = "receiverRadio";
             receiverRadio.Size = new Size(116, 24);
             receiverRadio.TabIndex = 1;
-            receiverRadio.TabStop = true;
             receiverRadio.Text = "Munkahelyek";
             receiverRadio.UseVisualStyleBackColor = true;
             // 
             // applicantRadio
             // 
             applicantRadio.AutoSize = true;
+            applicantRadio.Checked = true;
             applicantRadio.Location = new Point(14, 26);
             applicantRadio.Name = "applicantRadio";
             applicantRadio.Size = new Size(95, 24);
@@ -112,7 +89,7 @@
             groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox2.Controls.Add(ReceiverOptimalRadio);
             groupBox2.Controls.Add(applicantOptimalRadio);
-            groupBox2.Location = new Point(6, 344);
+            groupBox2.Location = new Point(6, 693);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(198, 94);
             groupBox2.TabIndex = 1;
@@ -126,13 +103,13 @@
             ReceiverOptimalRadio.Name = "ReceiverOptimalRadio";
             ReceiverOptimalRadio.Size = new Size(169, 24);
             ReceiverOptimalRadio.TabIndex = 1;
-            ReceiverOptimalRadio.TabStop = true;
             ReceiverOptimalRadio.Text = "Munkahely-optimális";
             ReceiverOptimalRadio.UseVisualStyleBackColor = true;
             // 
             // applicantOptimalRadio
             // 
             applicantOptimalRadio.AutoSize = true;
+            applicantOptimalRadio.Checked = true;
             applicantOptimalRadio.Location = new Point(14, 26);
             applicantOptimalRadio.Name = "applicantOptimalRadio";
             applicantOptimalRadio.Size = new Size(143, 24);
@@ -146,7 +123,7 @@
             groupBox3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox3.Controls.Add(dontAssignEachRadio);
             groupBox3.Controls.Add(assignEachRadio);
-            groupBox3.Location = new Point(210, 344);
+            groupBox3.Location = new Point(210, 693);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(288, 94);
             groupBox3.TabIndex = 2;
@@ -160,13 +137,13 @@
             dontAssignEachRadio.Name = "dontAssignEachRadio";
             dontAssignEachRadio.Size = new Size(264, 24);
             dontAssignEachRadio.TabIndex = 1;
-            dontAssignEachRadio.TabStop = true;
             dontAssignEachRadio.Text = "Ne minden hallgató kapjon munkát";
             dontAssignEachRadio.UseVisualStyleBackColor = true;
             // 
             // assignEachRadio
             // 
             assignEachRadio.AutoSize = true;
+            assignEachRadio.Checked = true;
             assignEachRadio.Location = new Point(14, 26);
             assignEachRadio.Name = "assignEachRadio";
             assignEachRadio.Size = new Size(241, 24);
@@ -180,7 +157,7 @@
             groupBox4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox4.Controls.Add(groupEnvynessRadio);
             groupBox4.Controls.Add(noGroupEnvynessRadio);
-            groupBox4.Location = new Point(504, 344);
+            groupBox4.Location = new Point(504, 693);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(195, 94);
             groupBox4.TabIndex = 2;
@@ -192,15 +169,15 @@
             groupEnvynessRadio.AutoSize = true;
             groupEnvynessRadio.Location = new Point(14, 56);
             groupEnvynessRadio.Name = "groupEnvynessRadio";
-            groupEnvynessRadio.Size = new Size(157, 24);
+            groupEnvynessRadio.Size = new Size(153, 24);
             groupEnvynessRadio.TabIndex = 1;
-            groupEnvynessRadio.TabStop = true;
-            groupEnvynessRadio.Text = "Heterogén irigység";
+            groupEnvynessRadio.Text = "Homogén irigység";
             groupEnvynessRadio.UseVisualStyleBackColor = true;
             // 
             // noGroupEnvynessRadio
             // 
             noGroupEnvynessRadio.AutoSize = true;
+            noGroupEnvynessRadio.Checked = true;
             noGroupEnvynessRadio.Location = new Point(14, 26);
             noGroupEnvynessRadio.Name = "noGroupEnvynessRadio";
             noGroupEnvynessRadio.Size = new Size(157, 24);
@@ -212,9 +189,9 @@
             // pairButton
             // 
             pairButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pairButton.Location = new Point(705, 344);
+            pairButton.Location = new Point(966, 693);
             pairButton.Name = "pairButton";
-            pairButton.Size = new Size(529, 94);
+            pairButton.Size = new Size(419, 94);
             pairButton.TabIndex = 3;
             pairButton.Text = "Párosítás";
             pairButton.UseVisualStyleBackColor = true;
@@ -225,14 +202,33 @@
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.Location = new Point(6, 77);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1228, 261);
+            panel1.Size = new Size(1379, 610);
             panel1.TabIndex = 4;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(comboBox1);
+            groupBox5.Location = new Point(710, 703);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(250, 84);
+            groupBox5.TabIndex = 6;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Solver típusa";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(30, 34);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(195, 28);
+            comboBox1.TabIndex = 0;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1246, 450);
+            ClientSize = new Size(1397, 799);
+            Controls.Add(groupBox5);
             Controls.Add(panel1);
             Controls.Add(pairButton);
             Controls.Add(groupBox4);
@@ -249,6 +245,7 @@
             groupBox3.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            groupBox5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -268,7 +265,7 @@
         private RadioButton noGroupEnvynessRadio;
         private Button pairButton;
         private Panel panel1;
-        private RadioButton receiverConstraintRadio;
-        private RadioButton constraintRadio;
+        private GroupBox groupBox5;
+        private ComboBox comboBox1;
     }
 }

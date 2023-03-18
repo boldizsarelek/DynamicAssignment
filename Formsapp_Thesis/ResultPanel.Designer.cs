@@ -33,13 +33,15 @@
             ReceiverID = new DataGridViewTextBoxColumn();
             ApplicantName = new DataGridViewTextBoxColumn();
             ReceiverName = new DataGridViewTextBoxColumn();
+            ApplicantPreference = new DataGridViewTextBoxColumn();
+            ReceiverPoints = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ApplicantID, ReceiverID, ApplicantName, ReceiverName });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { ApplicantID, ReceiverID, ApplicantName, ReceiverName, ApplicantPreference, ReceiverPoints });
             dataGridView1.Location = new Point(17, 24);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
@@ -83,6 +85,24 @@
             ReceiverName.ReadOnly = true;
             ReceiverName.Width = 125;
             // 
+            // ApplicantPreference
+            // 
+            ApplicantPreference.DataPropertyName = "ApplicantPreference";
+            ApplicantPreference.HeaderText = "Preferencia";
+            ApplicantPreference.MinimumWidth = 6;
+            ApplicantPreference.Name = "ApplicantPreference";
+            ApplicantPreference.ReadOnly = true;
+            ApplicantPreference.Width = 125;
+            // 
+            // ReceiverPoints
+            // 
+            ReceiverPoints.DataPropertyName = "ReceiverPoints";
+            ReceiverPoints.HeaderText = "Pontszám";
+            ReceiverPoints.MinimumWidth = 6;
+            ReceiverPoints.Name = "ReceiverPoints";
+            ReceiverPoints.ReadOnly = true;
+            ReceiverPoints.Width = 125;
+            // 
             // ResultPanel
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -101,5 +121,7 @@
         private DataGridViewTextBoxColumn ReceiverID;
         private DataGridViewTextBoxColumn ApplicantName;
         private DataGridViewTextBoxColumn ReceiverName;
+        private DataGridViewTextBoxColumn ApplicantPreference;
+        private DataGridViewTextBoxColumn ReceiverPoints;
     }
 }

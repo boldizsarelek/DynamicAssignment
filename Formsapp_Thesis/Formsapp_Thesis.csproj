@@ -6,11 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>24146683-c5b9-40dc-a0a5-86c3c2b12390</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DynamicAssignment" Version="1.1.3" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="Data\Applicant.csv">
@@ -31,6 +28,11 @@
     <None Update="Data\ReceiverConstraint.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DynamicAssignment" Version="1.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
   </ItemGroup>
 
 </Project>
