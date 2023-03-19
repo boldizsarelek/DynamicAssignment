@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,16 +13,12 @@ namespace Formsapp_Thesis
     {
         static public Assignment Assignment;
         static public AssignmentResult AssignmentResult;
-        public void Solve()
+        static public void Solve()
         {
-            AssignmentResult =  Assignment.Solve();           
+            AssignmentResult = Assignment.Solve();
         }
-        public AssignmentPackage()
-        {
-            readLocalData();            
-        }
-        
-        private void readLocalData()
+       
+        static public void ReadLocalData()
         {
             List<Applicant> applicants = new List<Applicant>();
             StreamReader reader = new StreamReader("Data/Applicant.csv");
@@ -155,19 +152,11 @@ namespace Formsapp_Thesis
                 applicantReceivers: applicantReceivers,
                 constraints: constraints,
                 applicantConstraints: applicantConstraints,
-                solverType2: Google.OrTools.LinearSolver.Solver.OptimizationProblemType.GLOP_LINEAR_PROGRAMMING,
-                groupEnvyness: false) ;
+                //receiverDynamicConstraints = receiverConstraints,
+                solverType: "SCIP",
+                groupEnvyness: false);
+                   
             Assignment.ReceiverDynamicConstraints = receiverConstraints;
-
-            List<ExpandoObject> dynamicApplicants = new List<ExpandoObject>();
-            foreach (Applicant applicant in applicants)
-            {
-                List<ApplicantDynamicConstraint> applicantDynamicConstraints = (from adc in applicantConstraints
-                                                                                where adc.Applicant == applicant
-                                                                                select adc).ToList();
-
-
-            }
         }
         
     }

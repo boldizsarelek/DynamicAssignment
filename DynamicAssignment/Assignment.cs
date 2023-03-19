@@ -18,7 +18,40 @@ namespace DynamicAssignment
         public List<ReceiverDynamicConstraint> ReceiverDynamicConstraints;
 
         //Properties for assignment
-        public string SolverType; //Select OR-tools supported solver
+        public string SolverType
+        {
+            get
+            { return SolverType; }
+            set
+            {
+                switch (value)
+                {
+                    case "SCIP":
+                        solverType2 = Solver.OptimizationProblemType.SCIP_MIXED_INTEGER_PROGRAMMING;
+                        break;
+                    case "GLOP":
+                        solverType2 = Solver.OptimizationProblemType.GLOP_LINEAR_PROGRAMMING;
+                        break;
+                    case "CLP":
+                        solverType2 = Solver.OptimizationProblemType.CLP_LINEAR_PROGRAMMING;
+                        break;
+                    case "CBC":
+                        solverType2 = Solver.OptimizationProblemType.CBC_MIXED_INTEGER_PROGRAMMING;
+                        break;
+                    case "GLPKLP":
+                        solverType2 = Solver.OptimizationProblemType.GLPK_LINEAR_PROGRAMMING;
+                        break;
+                    case "GLPKMIP":
+                        solverType2 = Solver.OptimizationProblemType.GLPK_MIXED_INTEGER_PROGRAMMING;
+                        break;
+                    default:
+                        break;
+                }
+                SolverType = value;
+            }
+        }
+                
+        //Select OR-tools supported solver
         public bool ApplicantOptimal;
         public bool GroupEnvyness;
         public bool AssignEach;
@@ -35,7 +68,8 @@ namespace DynamicAssignment
             List<Receiver> receivers, 
             List<ApplicantReceiver> applicantReceivers,
             List<DynamicConstraint> constraints = null, 
-            List<ApplicantDynamicConstraint> applicantConstraints = null, 
+            List<ApplicantDynamicConstraint> applicantConstraints = null,
+            List<ReceiverDynamicConstraint> receiverDynamicConstraints = null,
             string solverType = "SCIP",
             bool applicantOptimal = true, 
             bool groupEnvyness = true, 
@@ -46,7 +80,7 @@ namespace DynamicAssignment
             ApplicantReceivers = applicantReceivers;
             DynamicConstraints = constraints;
             ApplicantConstraints = applicantConstraints;
-
+            ReceiverDynamicConstraints = receiverDynamicConstraints;
             SolverType = solverType;
             switch (solverType)
             {
@@ -272,7 +306,11 @@ namespace DynamicAssignment
             validateData();
             variables.Clear();
             BlockingPairs.Clear();
-            solver.Clear();
+            if (solver != null)
+            {
+                solver.Clear();
+            }
+            
 
 
             InvokeSolver();

@@ -7,20 +7,20 @@ using System.Windows.Forms;
 namespace Formsapp_Thesis
 {
     public partial class MainForm : Form
-    {
-        AssignmentPackage m;
-        List<string> strings = new List<string>();
+    {        
         public MainForm()
         {
             InitializeComponent();
-            m = new AssignmentPackage();
+            AssignmentPackage.ReadLocalData();
             ApplicantsPanel ap = new ApplicantsPanel();
             panel1.Controls.Add(ap);
             applicantRadio.CheckedChanged += Groupbox1_CheckChange;
             receiverRadio.CheckedChanged += Groupbox1_CheckChange;
-            comboBox1.DataSource = Enum.GetValues(typeof(Solver.OptimizationProblemType))
-                                     .Cast<Solver.OptimizationProblemType>()
-                                     .ToList();
+            List<string> solvers = new List<string>();
+            solvers.Add("SCIP");
+            solvers.Add("GLOP");
+            solvers.Add("GLPK");
+            comboBox1.DataSource = solvers;
         }
 
         private void Groupbox1_CheckChange(object? sender, EventArgs e)
@@ -46,13 +46,12 @@ namespace Formsapp_Thesis
             bool groupEnvyness = groupEnvynessRadio.Checked;
             bool applicantOptimal = applicantOptimalRadio.Checked;
             bool assignEach = assignEachRadio.Checked;
-
-            Assignment.assignEach = assignEach;
-            Assignment.applicantOptimal = applicantOptimal;
-            Assignment.groupEnvyness = groupEnvyness;
-
-
-            m.Solve();
+            string solverType = comboBox1.SelectedItem as string;
+            AssignmentPackage.Assignment.GroupEnvyness = groupEnvyness;
+            AssignmentPackage.Assignment.ApplicantOptimal = applicantOptimal;
+            AssignmentPackage.Assignment.AssignEach = assignEach;
+            AssignmentPackage.Assignment.SolverType = solverType;
+            AssignmentPackage.Solve();        
             ResultForm rf = new ResultForm();
             rf.ShowDialog();
 
