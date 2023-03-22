@@ -19,7 +19,8 @@ namespace Formsapp_Thesis
             List<string> solvers = new List<string>();
             solvers.Add("SCIP");
             solvers.Add("GLOP");
-            solvers.Add("GLPK");
+            solvers.Add("CLP");
+            solvers.Add("CBC");
             comboBox1.DataSource = solvers;
         }
 

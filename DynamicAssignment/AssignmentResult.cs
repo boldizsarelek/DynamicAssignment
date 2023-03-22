@@ -10,11 +10,11 @@ namespace DynamicAssignment
     {
         public string Result { get; }
         public List<ApplicantReceiver> Pairs { get; }
-        public List<BlockgingPair> BlockingPairs { get; }
+        public List<BlockingPair> BlockingPairs { get; }
         public int ObjectiveSum { get; }
         public string LpFile { get; }
 
-        public AssignmentResult(string result, List<ApplicantReceiver> pairs, List<BlockgingPair> blockingPairs, int objectiveSum, string lpFile)
+        public AssignmentResult(string result, List<ApplicantReceiver> pairs, List<BlockingPair> blockingPairs, int objectiveSum, string lpFile)
         {
             Result = result;
             Pairs = pairs;
@@ -22,11 +22,5 @@ namespace DynamicAssignment
             ObjectiveSum = objectiveSum;
             LpFile = lpFile;
         }
-    }
-    public class BlockgingPair
-    {
-        public int blockedApplicantID;
-        public int blockingApplicantID;
-        public int blockingReceiverID;
     }
 }

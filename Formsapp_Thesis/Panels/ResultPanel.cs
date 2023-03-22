@@ -26,7 +26,8 @@ namespace Formsapp_Thesis
             InitializeComponent();
             Dock = DockStyle.Fill;
 
-            dataGridView1.DataSource = AssignmentPackage.AssignmentResult.Pairs;
+            dataGridView1.DataSource = (from p in AssignmentPackage.AssignmentResult.Pairs
+                                       select new {p.Applicant.ApplicantID, p.Receiver.ReceiverID, p.Applicant.ApplicantName, p.Receiver.ReceiverName, p.ApplicantPreference, p.ReceiverPoints}).ToList();
             dataGridView1.Dock = DockStyle.Fill;
         }
     }

@@ -54,7 +54,7 @@
             // 
             // ApplicantID
             // 
-            ApplicantID.DataPropertyName = "Applicant.ApplicantID";
+            ApplicantID.DataPropertyName = "ApplicantID";
             ApplicantID.HeaderText = "Hallgató azonosítója";
             ApplicantID.MinimumWidth = 6;
             ApplicantID.Name = "ApplicantID";
@@ -63,7 +63,7 @@
             // 
             // ReceiverID
             // 
-            ReceiverID.DataPropertyName = "Receiver.ReceiverID";
+            ReceiverID.DataPropertyName = "ReceiverID";
             ReceiverID.HeaderText = "Munkahely azonosítója";
             ReceiverID.MinimumWidth = 6;
             ReceiverID.Name = "ReceiverID";
@@ -72,7 +72,7 @@
             // 
             // ApplicantName
             // 
-            ApplicantName.DataPropertyName = "Applicant.ApplicantName";
+            ApplicantName.DataPropertyName = "ApplicantName";
             ApplicantName.HeaderText = "Hallgató neve";
             ApplicantName.MinimumWidth = 6;
             ApplicantName.Name = "ApplicantName";
@@ -81,7 +81,7 @@
             // 
             // ReceiverName
             // 
-            ReceiverName.DataPropertyName = "Receiver.ReceiverName";
+            ReceiverName.DataPropertyName = "ReceiverName";
             ReceiverName.HeaderText = "Munkahely neve";
             ReceiverName.MinimumWidth = 6;
             ReceiverName.Name = "ReceiverName";
