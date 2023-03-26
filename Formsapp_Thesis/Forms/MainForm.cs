@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Formsapp_Thesis
 {
     public partial class MainForm : Form
-    {        
+    {
         public MainForm()
         {
             InitializeComponent();
@@ -52,7 +52,7 @@ namespace Formsapp_Thesis
             AssignmentPackage.Assignment.ApplicantOptimal = applicantOptimal;
             AssignmentPackage.Assignment.AssignEach = assignEach;
             AssignmentPackage.Assignment.SolverType = solverType;
-            AssignmentPackage.Solve();        
+            AssignmentPackage.Solve();
             ResultForm rf = new ResultForm();
             rf.ShowDialog();
 

@@ -40,7 +40,7 @@ namespace Formsapp_Thesis
             applicantDynamicConstraints = AssignmentPackage.Assignment.GetApplicantDynamicConstraintsByApplicantID(applicantID);
             dataGridView1.DataSource = (from ar in applicantReceivers
                                         orderby ar.ApplicantPreference ascending
-                                        select new { ar.ApplicantPreference, ar.Receiver.ReceiverID, ar.Receiver.ReceiverName }).ToList();
+                                        select new { ar.ApplicantPreference, ar.Receiver.ReceiverID, ar.Receiver.ReceiverName, ar.ReceiverPoints }).ToList();
             dataGridView2.DataSource = (from adc in applicantDynamicConstraints
                                         select new { adc.DynamicConstraint.ConstraintName, adc.ApplicantData }).ToList();
         }
