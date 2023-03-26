@@ -18,6 +18,7 @@ namespace DynamicAssignment
         public List<ApplicantDynamicConstraint> ApplicantConstraints; // Constraint Data (bool)
         public List<ReceiverDynamicConstraint> ReceiverDynamicConstraints;
 
+     
         //Properties for assignment
         private string solverType;
         public bool ApplicantOptimal;
@@ -35,11 +36,11 @@ namespace DynamicAssignment
                     case "SCIP":
                         solverType2 = Solver.OptimizationProblemType.SCIP_MIXED_INTEGER_PROGRAMMING;
                         break;
-                    case "GLOP":
-                        solverType2 = Solver.OptimizationProblemType.GLOP_LINEAR_PROGRAMMING;
+                    case "SAT":
+                        solverType2 = Solver.OptimizationProblemType.SAT_INTEGER_PROGRAMMING;
                         break;
-                    case "CLP":
-                        solverType2 = Solver.OptimizationProblemType.CLP_LINEAR_PROGRAMMING;
+                    case "BOP":
+                        solverType2 = Solver.OptimizationProblemType.BOP_INTEGER_PROGRAMMING;
                         break;
                     case "CBC":
                         solverType2 = Solver.OptimizationProblemType.CBC_MIXED_INTEGER_PROGRAMMING;
@@ -311,7 +312,7 @@ namespace DynamicAssignment
                                                   select ar).FirstOrDefault();
 
                         pairs.Add(pair);
-                        Console.WriteLine(variables[applicant][receiver].Name());
+                        //Console.WriteLine(variables[applicant][receiver].Name());
                         if (ApplicantOptimal)
                         {
                             objectiveSum += (from ar in ApplicantReceivers
@@ -333,10 +334,16 @@ namespace DynamicAssignment
             {
                 if (pair.Variable.SolutionValue() > 0.5)
                 {
-                    objectiveSum += 100;
+                    if (ApplicantOptimal)
+                    {
+                        objectiveSum += 100;
+                    }
+                    else
+                    {
+                        objectiveSum -= 100;
+                    }
                     blockingPairs.Add(pair);
-                    Console.WriteLine(pair.Variable.Name());
-
+                    //Console.WriteLine(pair.Variable.Name());
                 }
             }
 
@@ -345,7 +352,8 @@ namespace DynamicAssignment
                 pairs: pairs,
                 blockingPairs: blockingPairs,
                 objectiveSum: objectiveSum,
-                lpFile: solver.ExportModelAsLpFormat(false));
+                lpFile: solver.ExportModelAsLpFormat(false),
+                wallTime: solver.WallTime());
             return assignmentResult;
         }
 
@@ -628,36 +636,41 @@ namespace DynamicAssignment
                                                                  && application.Applicant.ApplicantID == applicant.ApplicantID
                                                                  select application.Receiver).ToList();
 
-                                foreach (Receiver worseReceiver in worseReceivers)
+
+                                if (betterApplicantsSameGroup.Count > 0)
                                 {
-                                    Constraint constraint = solver.MakeConstraint();
-                                    constraint.SetLb(0);
-
-                                    constraint.SetCoefficient(variables[applicant][receiver], 1);
-                                    foreach (Applicant betterApplicant in betterApplicantsSameGroup)
+                                    foreach (Receiver worseReceiver in worseReceivers)
                                     {
-                                        constraint.SetCoefficient(variables[betterApplicant][receiver], 1);
+                                        Constraint constraint = solver.MakeConstraint();
+                                        constraint.SetLb(0);
+
+                                        constraint.SetCoefficient(variables[applicant][receiver], 1);
+                                        foreach (Applicant betterApplicant in betterApplicantsSameGroup)
+                                        {
+                                            constraint.SetCoefficient(variables[betterApplicant][receiver], 1);
+                                        }
+
+
+                                        BlockingPair bp = new BlockingPair();
+
+                                        bp.BlockedApplication = (from application in ApplicantReceivers
+                                                                 where application.Applicant == applicant
+                                                                 && application.Receiver == receiver
+                                                                 select application).FirstOrDefault();
+
+                                        bp.BlockingApplication = (from application in ApplicantReceivers
+                                                                  where application.Applicant == applicant
+                                                                  && application.Receiver == worseReceiver
+                                                                  select application).FirstOrDefault();
+
+                                        bp.Variable = solver.MakeBoolVar($"B{applicant.ApplicantID}_{receiver.ReceiverID}_{applicant.ApplicantID}_{worseReceiver.ReceiverID}");
+
+                                        BlockingPairs2.Add(bp);
+                                        constraint.SetCoefficient(BlockingPairs2[BlockingPairs2.Count - 1].Variable, 1);
+                                        constraint.SetCoefficient(variables[applicant][worseReceiver], -1);
                                     }
-
-
-                                    BlockingPair bp = new BlockingPair();
-
-                                    bp.BlockedApplication = (from application in ApplicantReceivers
-                                                             where application.Applicant == applicant
-                                                             && application.Receiver == receiver
-                                                             select application).FirstOrDefault();
-
-                                    bp.BlockingApplication = (from application in ApplicantReceivers
-                                                              where application.Applicant == applicant
-                                                              && application.Receiver == worseReceiver
-                                                              select application).FirstOrDefault();
-
-                                    bp.Variable = solver.MakeBoolVar($"B{applicant.ApplicantID}_{receiver.ReceiverID}_{applicant.ApplicantID}_{worseReceiver.ReceiverID}");
-
-                                    BlockingPairs2.Add(bp);
-                                    constraint.SetCoefficient(BlockingPairs2[BlockingPairs2.Count - 1].Variable, 1);
-                                    constraint.SetCoefficient(variables[applicant][worseReceiver], -1);                                    
                                 }
+                                
                             }
                         }
                     }
@@ -760,34 +773,37 @@ namespace DynamicAssignment
                                                                     && application.Receiver.ReceiverID == receiver.ReceiverID
                                                                     select application.Applicant).ToList();
 
-                                foreach (Receiver worseReceiver in worseReceivers)
+                                if (betterApplicants.Count > 0)
                                 {
-                                    Constraint constraint = solver.MakeConstraint();
-                                    constraint.SetLb(0);
-
-                                    constraint.SetCoefficient(variables[applicant][receiver], 1);
-                                    foreach (Applicant betterApplicant in betterApplicants)
+                                    foreach (Receiver worseReceiver in worseReceivers)
                                     {
-                                        constraint.SetCoefficient(variables[betterApplicant][receiver], 1);
+                                        Constraint constraint = solver.MakeConstraint();
+                                        constraint.SetLb(0);
+
+                                        constraint.SetCoefficient(variables[applicant][receiver], 1);
+                                        foreach (Applicant betterApplicant in betterApplicants)
+                                        {
+                                            constraint.SetCoefficient(variables[betterApplicant][receiver], 1);
+                                        }
+
+                                        BlockingPair bp = new BlockingPair();
+
+                                        bp.BlockedApplication = (from application in ApplicantReceivers
+                                                                 where application.Applicant == applicant
+                                                                 && application.Receiver == receiver
+                                                                 select application).FirstOrDefault();
+
+                                        bp.BlockingApplication = (from application in ApplicantReceivers
+                                                                  where application.Applicant == applicant
+                                                                  && application.Receiver == worseReceiver
+                                                                  select application).FirstOrDefault();
+
+                                        bp.Variable = solver.MakeBoolVar($"B{applicant.ApplicantID}_{receiver.ReceiverID}_{applicant.ApplicantID}_{worseReceiver.ReceiverID}");
+                                        BlockingPairs2.Add(bp);
+                                        constraint.SetCoefficient(variables[applicant][worseReceiver], -1);
+                                        constraint.SetCoefficient(BlockingPairs2[BlockingPairs2.Count - 1].Variable, 1);
                                     }
-
-                                    BlockingPair bp = new BlockingPair();
-
-                                    bp.BlockedApplication = (from application in ApplicantReceivers
-                                                             where application.Applicant == applicant
-                                                             && application.Receiver == receiver
-                                                             select application).FirstOrDefault();
-
-                                    bp.BlockingApplication = (from application in ApplicantReceivers
-                                                              where application.Applicant == applicant
-                                                              && application.Receiver == worseReceiver
-                                                              select application).FirstOrDefault();
-
-                                    bp.Variable = solver.MakeBoolVar($"B{applicant.ApplicantID}_{receiver.ReceiverID}_{applicant.ApplicantID}_{worseReceiver.ReceiverID}");
-                                    BlockingPairs2.Add(bp);
-                                    constraint.SetCoefficient(variables[applicant][worseReceiver], -1);                                  
-                                    constraint.SetCoefficient(BlockingPairs2[BlockingPairs2.Count - 1].Variable, 1);
-                                }
+                                }                           
                             }
                         }
                     }

@@ -14,13 +14,16 @@ namespace DynamicAssignment
         public int ObjectiveSum { get; }
         public string LpFile { get; }
 
-        public AssignmentResult(string result, List<ApplicantReceiver> pairs, List<BlockingPair> blockingPairs, int objectiveSum, string lpFile)
+        public long wallTime { get; }
+
+        public AssignmentResult(string result, List<ApplicantReceiver> pairs, List<BlockingPair> blockingPairs, int objectiveSum, string lpFile, long wallTime)
         {
             Result = result;
             Pairs = pairs;
             BlockingPairs = blockingPairs;
             ObjectiveSum = objectiveSum;
             LpFile = lpFile;
+            this.wallTime = wallTime;
         }
     }
 }

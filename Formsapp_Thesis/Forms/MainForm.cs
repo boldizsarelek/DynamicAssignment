@@ -18,8 +18,8 @@ namespace Formsapp_Thesis
             receiverRadio.CheckedChanged += Groupbox1_CheckChange;
             List<string> solvers = new List<string>();
             solvers.Add("SCIP");
-            solvers.Add("GLOP");
-            solvers.Add("CLP");
+            solvers.Add("SAT");
+            solvers.Add("BOP");
             solvers.Add("CBC");
             comboBox1.DataSource = solvers;
         }

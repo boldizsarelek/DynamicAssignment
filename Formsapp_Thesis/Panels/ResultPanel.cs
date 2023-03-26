@@ -21,6 +21,8 @@ namespace Formsapp_Thesis
             public int ApplicantPreference { get; set; }
             public int ReceiverPoints { get; set; }
         }
+
+        public DataGridView dataGridView { get { return dataGridView1; } }
         public ResultPanel()
         {
             InitializeComponent();
